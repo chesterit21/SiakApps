@@ -1,0 +1,107 @@
+@model IEnumerable<SiakWebApps.Models.Student>
+
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h1>Students</h1>
+
+<p>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createStudentModal">Create
+        New</button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Nis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Nisn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().NamaLengkap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().TempatLahir)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().TanggalLahir)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Agama)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nis)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nisn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NamaLengkap)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TempatLahir)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TanggalLahir)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Agama)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                        data-target="#editStudentModal">Edit</button>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Create Student Modal -->
+<div class="modal fade" id="createStudentModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Student</h5>
+            </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("_CreateModal")
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Student Modal -->
+<div class="modal fade" id="editStudentModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Student</h5>
+            </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("_EditModal")
+            </div>
+        </div>
+    </div>
+</div>

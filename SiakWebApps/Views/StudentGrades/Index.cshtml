@@ -1,0 +1,133 @@
+@model IEnumerable<SiakWebApps.Models.StudentGrade>
+
+@{
+    ViewData["Title"] = "Student Grades";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Student Grades</h1>
+    <button type="button" class="btn btn-primary" onclick="openCreateModal()">
+        <i class="fas fa-plus"></i> Add Grade
+    </button>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="gradesTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Exam ID</th>
+                        <th>Grade</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.SiswaId</td>
+                            <td>@item.UjianId</td>
+                            <td>@item.Nilai</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-info btn-sm" onclick="openDetailsModal(@item.Id)">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <button class="btn btn-warning btn-sm" onclick="openEditModal(@item.Id)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="confirmDelete(@item.Id)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="crudModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#gradesTable').DataTable();
+        });
+
+        function openCreateModal() {
+            $('#modalTitle').text('Add Grade');
+            $('#modalBody').load('/StudentGrades/Create', function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function openEditModal(id) {
+            $('#modalTitle').text('Edit Grade');
+            $('#modalBody').load('/StudentGrades/Edit/' + id, function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function openDetailsModal(id) {
+            $('#modalTitle').text('Grade Details');
+            $('#modalBody').load('/StudentGrades/Details/' + id, function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function confirmDelete(id) {
+            if (confirm('Are you sure you want to delete this grade?')) {
+                $.ajax({
+                    url: '/StudentGrades/Delete/' + id,
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert('Error deleting grade.');
+                        }
+                    }
+                });
+            }
+        }
+
+        $(document).on('submit', '#createGradeForm, #editGradeForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#crudModal').modal('hide');
+                        location.reload();
+                    } else {
+                        $('#modalBody').html(response);
+                    }
+                }
+            });
+        });
+    </script>
+}

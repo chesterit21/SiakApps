@@ -1,0 +1,57 @@
+@model SiakWebApps.Models.PaymentTransaction
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm borderless">
+            <tr>
+                <th style="width: 30%">Student ID</th>
+                <td>: @Model.SiswaId</td>
+            </tr>
+            <tr>
+                <th>Payment Type</th>
+                <td>: @Model.JenisPembayaran</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>: <span class="text-success font-weight-bold">@Model.Jumlah.ToString("C")</span></td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>: @Model.TanggalPembayaran.ToString("dd MMMM yyyy")</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>: <span
+                        class="badge @(Model.Status == "Lunas" ? "badge-success" : "badge-warning")">@Model.Status</span>
+                </td>
+            </tr>
+            <tr>
+                <th>Receipt / Evidence</th>
+                <td>: @(Model.BuktiPembayaran ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Academic Year ID</th>
+                <td>: @Model.TahunAjaranId</td>
+            </tr>
+            <tr>
+                <th>Semester ID</th>
+                <td>: @(Model.SemesterId?.ToString() ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Created By (User ID)</th>
+                <td>: @(Model.CreatedBy?.ToString() ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>: @Model.CreatedAt.ToString("g")</td>
+            </tr>
+            <tr>
+                <th>Updated At</th>
+                <td>: @Model.UpdatedAt.ToString("g")</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer px-0 pb-0 mt-3 shadow-none border-top-0">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

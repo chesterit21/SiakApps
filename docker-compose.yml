@@ -1,0 +1,27 @@
+services:
+  # SIAK Web Application
+  siak_web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: siak_web
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=postgres_db;Port=5432;Database=sfcore_siak;Username=postgres;Password=PasswordGua_123!;
+    ports:
+      - "5000:8080"
+    networks:
+      - siak_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  siak_network:
+    external: true
+    name: siak_network

@@ -1,0 +1,59 @@
+@model SiakWebApps.Models.Teacher
+
+<form asp-action="Create" id="createTeacherForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nip" class="control-label"></label>
+                <input asp-for="Nip" class="form-control" />
+                <span asp-validation-for="Nip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NamaLengkap" class="control-label">Full Name</label>
+                <input asp-for="NamaLengkap" class="form-control" />
+                <span asp-validation-for="NamaLengkap" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JenisKelaminId" class="control-label">Gender ID</label>
+                <input asp-for="JenisKelaminId" class="form-control" />
+                <span asp-validation-for="JenisKelaminId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="TempatLahir" class="control-label">Place of Birth</label>
+                <input asp-for="TempatLahir" class="form-control" />
+                <span asp-validation-for="TempatLahir" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TanggalLahir" class="control-label">Date of Birth</label>
+                <input asp-for="TanggalLahir" type="date" class="form-control" />
+                <span asp-validation-for="TanggalLahir" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer px-0 pb-0">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Teacher</button>
+    </div>
+</form>
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}

@@ -1,0 +1,35 @@
+@model SiakWebApps.Models.Subject
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm borderless">
+            <tr>
+                <th style="width: 30%">Code</th>
+                <td>: @Model.Kode</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>: @Model.Nama</td>
+            </tr>
+            <tr>
+                <th>Level Range</th>
+                <td>: @Model.TingkatMin - @Model.TingkatMax</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>: @(Model.Deskripsi ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>: @Model.CreatedAt.ToString("g")</td>
+            </tr>
+            <tr>
+                <th>Updated At</th>
+                <td>: @Model.UpdatedAt.ToString("g")</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer px-0 pb-0 mt-3 shadow-none border-top-0">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

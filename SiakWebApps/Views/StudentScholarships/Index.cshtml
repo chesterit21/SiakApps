@@ -1,0 +1,142 @@
+@model IEnumerable<SiakWebApps.Models.StudentScholarship>
+
+@{
+    ViewData["Title"] = "Student Scholarships";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Student Scholarships</h1>
+    <button type="button" class="btn btn-primary" onclick="openCreateModal()">
+        <i class="fas fa-plus"></i> Add Scholarship
+    </button>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="scholarshipsTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Scholarship ID</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.SiswaId</td>
+                            <td>@item.BeasiswaId</td>
+                            <td>@(item.JumlahBantuan?.ToString("C") ?? "-")</td>
+                            <td>
+                                <span class="badge @(item.Status == "Aktif" ? "badge-success" : "badge-secondary")">
+                                    @item.Status
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-info btn-sm"
+                                        onclick="openDetailsModal(@item.SiswaId, @item.BeasiswaId, @item.TahunAjaranId, @item.SemesterId)">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <button class="btn btn-warning btn-sm"
+                                        onclick="openEditModal(@item.SiswaId, @item.BeasiswaId, @item.TahunAjaranId, @item.SemesterId)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm"
+                                        onclick="confirmDelete(@item.SiswaId, @item.BeasiswaId, @item.TahunAjaranId, @item.SemesterId)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="crudModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#scholarshipsTable').DataTable();
+        });
+
+        function openCreateModal() {
+            $('#modalTitle').text('Add Student Scholarship');
+            $('#modalBody').load('/StudentScholarships/Create', function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function openEditModal(sId, bId, taId, semId) {
+            $('#modalTitle').text('Edit Student Scholarship');
+            $('#modalBody').load(`/StudentScholarships/Edit?studentId=${sId}&scholarshipId=${bId}&academicYearId=${taId}&semesterId=${semId}`, function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function openDetailsModal(sId, bId, taId, semId) {
+            $('#modalTitle').text('Scholarship Details');
+            $('#modalBody').load(`/StudentScholarships/Details?studentId=${sId}&scholarshipId=${bId}&academicYearId=${taId}&semesterId=${semId}`, function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function confirmDelete(sId, bId, taId, semId) {
+            if (confirm('Are you sure you want to remove this scholarship?')) {
+                $.ajax({
+                    url: `/StudentScholarships/Delete?studentId=${sId}&scholarshipId=${bId}&academicYearId=${taId}&semesterId=${semId}`,
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert('Error deleting scholarship.');
+                        }
+                    }
+                });
+            }
+        }
+
+        $(document).on('submit', '#createScholarshipForm, #editScholarshipForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#crudModal').modal('hide');
+                        location.reload();
+                    } else {
+                        $('#modalBody').html(response);
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,39 @@
+@model SiakWebApps.Models.Room
+
+<form asp-action="Create" id="createRoomForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Nama" class="control-label"></label>
+        <input asp-for="Nama" class="form-control" />
+        <span asp-validation-for="Nama" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Kapasitas" class="control-label"></label>
+        <input asp-for="Kapasitas" class="form-control" />
+        <span asp-validation-for="Kapasitas" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Lokasi" class="control-label"></label>
+        <input asp-for="Lokasi" class="form-control" />
+        <span asp-validation-for="Lokasi" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TipeRuangan" class="control-label">Room Type</label>
+        <select asp-for="TipeRuangan" class="form-control">
+            <option value="Kelas">Kelas</option>
+            <option value="Laboratorium">Laboratorium</option>
+            <option value="Perpustakaan">Perpustakaan</option>
+            <option value="Aula">Aula</option>
+            <option value="Lainnya">Lainnya</option>
+        </select>
+        <span asp-validation-for="TipeRuangan" class="text-danger"></span>
+    </div>
+    <div class="modal-footer px-0 pb-0 shadow-none border-top-0">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Room</button>
+    </div>
+</form>
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}

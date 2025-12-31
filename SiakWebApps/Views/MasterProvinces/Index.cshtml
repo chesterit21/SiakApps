@@ -1,0 +1,189 @@
+@model IEnumerable<SiakWebApps.Models.MasterProvince>
+
+@{
+    ViewData["Title"] = "Master Provinces";
+}
+
+<h1>Master Provinces</h1>
+
+<p>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal" onclick="showCreateModal()">
+        Create New
+    </button>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered" id="provincesTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nama)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nama)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="showEditModal(@item.Id)">
+                            Edit
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-info" onclick="showDetailsModal(@item.Id)">
+                            Details
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteProvince(@item.Id)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create Province</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be loaded by AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Province</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be loaded by AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Province Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be loaded by AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#provincesTable').DataTable({
+                "pageLength": 10,
+                "ordering": true,
+                "info": true,
+                "responsive": true
+            });
+        });
+
+        function showCreateModal() {
+            $.get('/MasterProvinces/Create', function (data) {
+                $('#createModal .modal-body').html(data);
+                $('#createModal').modal('show');
+            });
+        }
+
+        function showEditModal(id) {
+            $.get('/MasterProvinces/Edit/' + id, function (data) {
+                $('#editModal .modal-body').html(data);
+                $('#editModal').modal('show');
+            });
+        }
+
+        function showDetailsModal(id) {
+            $.get('/MasterProvinces/Details/' + id, function (data) {
+                $('#detailsModal .modal-body').html(data);
+                $('#detailsModal').modal('show');
+            });
+        }
+
+        function deleteProvince(id) {
+            if (confirm('Are you sure you want to delete this province?')) {
+                $.post('/MasterProvinces/Delete', { id: id }, function (data) {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error deleting province: ' + data.message);
+                    }
+                });
+            }
+        }
+
+        // Handle form submissions
+        $(document).on('submit', '#createProvinceForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                method: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#createModal').modal('hide');
+                        location.reload();
+                    } else {
+                        // Display validation errors
+                        alert('Validation errors occurred.');
+                    }
+                }
+            });
+        });
+
+        $(document).on('submit', '#editProvinceForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                method: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#editModal').modal('hide');
+                        location.reload();
+                    } else {
+                        // Display validation errors
+                        alert('Validation errors occurred.');
+                    }
+                }
+            });
+        });
+    </script>
+}

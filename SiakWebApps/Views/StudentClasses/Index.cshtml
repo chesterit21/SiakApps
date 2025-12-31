@@ -1,0 +1,207 @@
+@model IEnumerable<SiakWebApps.Models.StudentClass>
+
+@{
+    ViewData["Title"] = "Student Classes";
+}
+
+<h1>Student Classes</h1>
+
+<p>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal" onclick="showCreateModal()">
+        Create New
+    </button>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered" id="studentClassesTable">
+        <thead>
+            <tr>
+                <th>
+                    Siswa ID
+                </th>
+                <th>
+                    Kelas ID
+                </th>
+                <th>
+                    Semester ID
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TanggalMasuk)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SiswaId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KelasId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SemesterId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TanggalMasuk)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="showEditModal(@item.SiswaId, @item.KelasId, @item.SemesterId)">
+                            Edit
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-info" onclick="showDetailsModal(@item.SiswaId, @item.KelasId, @item.SemesterId)">
+                            Details
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteStudentClass(@item.SiswaId, @item.KelasId, @item.SemesterId)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create Student Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be loaded by AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Student Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be loaded by AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Student Class Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be loaded by AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#studentClassesTable').DataTable({
+                "pageLength": 10,
+                "ordering": true,
+                "info": true,
+                "responsive": true
+            });
+        });
+
+        function showCreateModal() {
+            $.get('/StudentClasses/Create', function (data) {
+                $('#createModal .modal-body').html(data);
+                $('#createModal').modal('show');
+            });
+        }
+
+        function showEditModal(studentId, classId, semesterId) {
+            $.get('/StudentClasses/Edit/' + studentId + '/' + classId + '/' + semesterId, function (data) {
+                $('#editModal .modal-body').html(data);
+                $('#editModal').modal('show');
+            });
+        }
+
+        function showDetailsModal(studentId, classId, semesterId) {
+            $.get('/StudentClasses/Details/' + studentId + '/' + classId + '/' + semesterId, function (data) {
+                $('#detailsModal .modal-body').html(data);
+                $('#detailsModal').modal('show');
+            });
+        }
+
+        function deleteStudentClass(studentId, classId, semesterId) {
+            if (confirm('Are you sure you want to delete this student class record?')) {
+                $.post('/StudentClasses/Delete', { studentId: studentId, classId: classId, semesterId: semesterId }, function (data) {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error deleting student class: ' + data.message);
+                    }
+                });
+            }
+        }
+
+        // Handle form submissions
+        $(document).on('submit', '#createStudentClassForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                method: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#createModal').modal('hide');
+                        location.reload();
+                    } else {
+                        // Display validation errors
+                        alert('Validation errors occurred.');
+                    }
+                }
+            });
+        });
+
+        $(document).on('submit', '#editStudentClassForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                method: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#editModal').modal('hide');
+                        location.reload();
+                    } else {
+                        // Display validation errors
+                        alert('Validation errors occurred.');
+                    }
+                }
+            });
+        });
+    </script>
+}

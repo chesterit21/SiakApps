@@ -1,0 +1,76 @@
+@model SiakWebApps.Models.Parent
+
+<form asp-action="Edit" id="editParentForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CreatedAt" />
+    <input type="hidden" asp-for="UpdatedAt" />
+    <div class="form-group">
+        <label asp-for="UserId" class="control-label"></label>
+        <input asp-for="UserId" class="form-control" />
+        <span asp-validation-for="UserId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Nik" class="control-label"></label>
+        <input asp-for="Nik" class="form-control" />
+        <span asp-validation-for="Nik" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NamaLengkap" class="control-label"></label>
+        <input asp-for="NamaLengkap" class="form-control" />
+        <span asp-validation-for="NamaLengkap" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="JenisKelaminId" class="control-label"></label>
+        <input asp-for="JenisKelaminId" class="form-control" />
+        <span asp-validation-for="JenisKelaminId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TempatLahir" class="control-label"></label>
+        <input asp-for="TempatLahir" class="form-control" />
+        <span asp-validation-for="TempatLahir" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TanggalLahir" class="control-label"></label>
+        <input asp-for="TanggalLahir" class="form-control" />
+        <span asp-validation-for="TanggalLahir" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Agama" class="control-label"></label>
+        <input asp-for="Agama" class="form-control" />
+        <span asp-validation-for="Agama" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Phone" class="control-label"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Pekerjaan" class="control-label"></label>
+        <input asp-for="Pekerjaan" class="form-control" />
+        <span asp-validation-for="Pekerjaan" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PenghasilanPerBulan" class="control-label"></label>
+        <input asp-for="PenghasilanPerBulan" class="form-control" />
+        <span asp-validation-for="PenghasilanPerBulan" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AlamatId" class="control-label"></label>
+        <input asp-for="AlamatId" class="form-control" />
+        <span asp-validation-for="AlamatId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

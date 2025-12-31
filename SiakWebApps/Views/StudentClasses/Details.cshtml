@@ -1,0 +1,53 @@
+@model SiakWebApps.Models.StudentClass
+
+<div>
+    <h4>Student Class Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            Siswa ID
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.SiswaId)
+        </dd>
+        <dt class="col-sm-3">
+            Kelas ID
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.KelasId)
+        </dd>
+        <dt class="col-sm-3">
+            Semester ID
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.SemesterId)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.TanggalMasuk)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TanggalMasuk)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.TanggalKeluar)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TanggalKeluar)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+    </dl>
+</div>
+<div>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

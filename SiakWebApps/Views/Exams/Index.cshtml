@@ -1,0 +1,113 @@
+@model IEnumerable<SiakWebApps.Models.Exam>
+
+@{
+    ViewData["Title"] = "Exams";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Exams</h1>
+    <button type="button" class="btn btn-primary" onclick="openCreateModal()">
+        <i class="fas fa-plus"></i> Add Exam
+    </button>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="examsTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Class ID</th>
+                        <th>Subject ID</th>
+                        <th>Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.TanggalUjian.ToString("dd/MM/yyyy")</td>
+                            <td>@item.KelasId</td>
+                            <td>@item.MataPelajaranId</td>
+                            <td>@item.JamMulai.ToString(@"hh\:mm") - @item.JamSelesai.ToString(@"hh\:mm")</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-info btn-sm" onclick="openDetailsModal(@item.Id)">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <button class="btn btn-warning btn-sm" onclick="openEditModal(@item.Id)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="crudModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#examsTable').DataTable();
+        });
+
+        function openCreateModal() {
+            $('#modalTitle').text('Add Exam');
+            $('#modalBody').load('/Exams/Create', function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function openEditModal(id) {
+            $('#modalTitle').text('Edit Exam');
+            $('#modalBody').load('/Exams/Edit/' + id, function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function openDetailsModal(id) {
+            $('#modalTitle').text('Exam Details');
+            $('#modalBody').load('/Exams/Details/' + id, function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        $(document).on('submit', '#createExamForm, #editExamForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#crudModal').modal('hide');
+                        location.reload();
+                    } else {
+                        $('#modalBody').html(response);
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,47 @@
+@model SiakWebApps.Models.Exam
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm borderless">
+            <tr>
+                <th style="width: 30%">Date</th>
+                <td>: @Model.TanggalUjian.ToString("dddd, dd MMMM yyyy")</td>
+            </tr>
+            <tr>
+                <th>Time</th>
+                <td>: @Model.JamMulai.ToString(@"hh\:mm") - @Model.JamSelesai.ToString(@"hh\:mm")</td>
+            </tr>
+            <tr>
+                <th>Type ID</th>
+                <td>: @Model.JenisUjianId</td>
+            </tr>
+            <tr>
+                <th>Subject ID</th>
+                <td>: @Model.MataPelajaranId</td>
+            </tr>
+            <tr>
+                <th>Class ID</th>
+                <td>: @Model.KelasId</td>
+            </tr>
+            <tr>
+                <th>Semester ID</th>
+                <td>: @Model.SemesterId</td>
+            </tr>
+            <tr>
+                <th>Room ID</th>
+                <td>: @(Model.RuanganId?.ToString() ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Teacher ID</th>
+                <td>: @Model.GuruId</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>: @(Model.Deskripsi ?? "-")</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer px-0 pb-0 mt-3 shadow-none border-top-0">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

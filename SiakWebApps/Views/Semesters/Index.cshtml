@@ -1,0 +1,115 @@
+@model IEnumerable<SiakWebApps.Models.Semester>
+
+@{
+    ViewData["Title"] = "Semesters";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Semesters</h1>
+    <button type="button" class="btn btn-primary" onclick="openCreateModal()">
+        <i class="fas fa-plus"></i> Add Semester
+    </button>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="semestersTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Semester #</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Nama</td>
+                            <td>@item.SemesterKe</td>
+                            <td>@item.TanggalMulai.ToString("dd/MM/yyyy")</td>
+                            <td>@item.TanggalSelesai.ToString("dd/MM/yyyy")</td>
+                            <td>@(item.IsActive ? "Yes" : "No")</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-info btn-sm" onclick="openDetailsModal(@item.Id)">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <button class="btn btn-warning btn-sm" onclick="openEditModal(@item.Id)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="crudModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#semestersTable').DataTable();
+        });
+
+        function openCreateModal() {
+            $('#modalTitle').text('Add Semester');
+            $('#modalBody').load('/Semesters/Create', function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function openEditModal(id) {
+            $('#modalTitle').text('Edit Semester');
+            $('#modalBody').load('/Semesters/Edit/' + id, function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        function openDetailsModal(id) {
+            $('#modalTitle').text('Semester Details');
+            $('#modalBody').load('/Semesters/Details/' + id, function () {
+                $('#crudModal').modal('show');
+            });
+        }
+
+        $(document).on('submit', '#createSemesterForm, #editSemesterForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#crudModal').modal('hide');
+                        location.reload();
+                    } else {
+                        $('#modalBody').html(response);
+                    }
+                }
+            });
+        });
+    </script>
+}

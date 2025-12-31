@@ -1,0 +1,35 @@
+@model SiakWebApps.Models.StudentGrade
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm borderless">
+            <tr>
+                <th style="width: 30%">Student ID</th>
+                <td>: @Model.SiswaId</td>
+            </tr>
+            <tr>
+                <th>Exam ID</th>
+                <td>: @Model.UjianId</td>
+            </tr>
+            <tr>
+                <th>Grade</th>
+                <td>: <span class="badge badge-primary" style="font-size: 1.1em">@Model.Nilai</span></td>
+            </tr>
+            <tr>
+                <th>Notes</th>
+                <td>: @(Model.Catatan ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>: @Model.CreatedAt.ToString("g")</td>
+            </tr>
+            <tr>
+                <th>Updated At</th>
+                <td>: @Model.UpdatedAt.ToString("g")</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer px-0 pb-0 mt-3 shadow-none border-top-0">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

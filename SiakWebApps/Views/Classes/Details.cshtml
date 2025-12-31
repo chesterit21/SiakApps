@@ -1,0 +1,53 @@
+@model SiakWebApps.Models.Class
+
+<div>
+    <h4>Class Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Nama)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Nama)
+        </dd>
+        <dt class="col-sm-3">
+            Tingkat
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Tingkat)
+        </dd>
+        <dt class="col-sm-3">
+            Tahun Ajaran ID
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TahunAjaranId)
+        </dd>
+        <dt class="col-sm-3">
+            Wali Kelas ID
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.WaliKelasId)
+        </dd>
+        <dt class="col-sm-3">
+            Kapasitas
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Kapasitas)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.UpdatedAt)
+        </dd>
+    </dl>
+</div>
+<div>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

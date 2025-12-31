@@ -1,0 +1,47 @@
+@model SiakWebApps.Models.Expense
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm borderless">
+            <tr>
+                <th style="width: 30%">Expense Name</th>
+                <td>: @Model.NamaPengeluaran</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>: <span class="text-danger font-weight-bold">@Model.Jumlah.ToString("C")</span></td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>: @Model.TanggalPengeluaran.ToString("dd MMMM yyyy")</td>
+            </tr>
+            <tr>
+                <th>Budget Category ID</th>
+                <td>: @(Model.AnggaranId?.ToString() ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>: @(Model.Deskripsi ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Receipt / Evidence</th>
+                <td>: @(Model.BuktiPengeluaran ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Created By (User ID)</th>
+                <td>: @Model.CreatedBy</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>: @Model.CreatedAt.ToString("g")</td>
+            </tr>
+            <tr>
+                <th>Updated At</th>
+                <td>: @Model.UpdatedAt.ToString("g")</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer px-0 pb-0 mt-3 shadow-none border-top-0">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

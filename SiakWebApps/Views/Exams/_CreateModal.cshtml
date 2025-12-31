@@ -1,0 +1,77 @@
+@model SiakWebApps.Models.Exam
+
+<form asp-action="Create" id="createExamForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="JenisUjianId" class="control-label">Exam Type</label>
+                <select asp-for="JenisUjianId" class="form-control" asp-items="ViewBag.JenisUjianId"></select>
+                <span asp-validation-for="JenisUjianId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MataPelajaranId" class="control-label">Subject</label>
+                <select asp-for="MataPelajaranId" class="form-control" asp-items="ViewBag.MataPelajaranId"></select>
+                <span asp-validation-for="MataPelajaranId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KelasId" class="control-label">Class</label>
+                <select asp-for="KelasId" class="form-control" asp-items="ViewBag.KelasId"></select>
+                <span asp-validation-for="KelasId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SemesterId" class="control-label">Semester</label>
+                <select asp-for="SemesterId" class="form-control" asp-items="ViewBag.SemesterId"></select>
+                <span asp-validation-for="SemesterId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="GuruId" class="control-label">Invigilator (Teacher)</label>
+                <select asp-for="GuruId" class="form-control" asp-items="ViewBag.GuruId"></select>
+                <span asp-validation-for="GuruId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RuanganId" class="control-label">Room</label>
+                <select asp-for="RuanganId" class="form-control" asp-items="ViewBag.RuanganId">
+                    <option value="">-- Select Room --</option>
+                </select>
+                <span asp-validation-for="RuanganId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TanggalUjian" class="control-label">Exam Date</label>
+                <input asp-for="TanggalUjian" type="date" class="form-control" />
+                <span asp-validation-for="TanggalUjian" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="JamMulai" class="control-label">Start</label>
+                        <input asp-for="JamMulai" type="time" class="form-control" />
+                        <span asp-validation-for="JamMulai" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="JamSelesai" class="control-label">End</label>
+                        <input asp-for="JamSelesai" type="time" class="form-control" />
+                        <span asp-validation-for="JamSelesai" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Deskripsi" class="control-label"></label>
+        <textarea asp-for="Deskripsi" class="form-control"></textarea>
+        <span asp-validation-for="Deskripsi" class="text-danger"></span>
+    </div>
+    <div class="modal-footer px-0 pb-0 shadow-none border-top-0">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Exam</button>
+    </div>
+</form>
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}

@@ -1,0 +1,41 @@
+@model SiakWebApps.Models.Class
+
+<form asp-action="Edit" id="editClassForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CreatedAt" />
+    <input type="hidden" asp-for="UpdatedAt" />
+    <div class="form-group">
+        <label asp-for="Nama" class="control-label"></label>
+        <input asp-for="Nama" class="form-control" />
+        <span asp-validation-for="Nama" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Tingkat" class="control-label"></label>
+        <input asp-for="Tingkat" class="form-control" />
+        <span asp-validation-for="Tingkat" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TahunAjaranId" class="control-label"></label>
+        <input asp-for="TahunAjaranId" class="form-control" />
+        <span asp-validation-for="TahunAjaranId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="WaliKelasId" class="control-label"></label>
+        <input asp-for="WaliKelasId" class="form-control" />
+        <span asp-validation-for="WaliKelasId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Kapasitas" class="control-label"></label>
+        <input asp-for="Kapasitas" class="form-control" />
+        <span asp-validation-for="Kapasitas" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

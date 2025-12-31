@@ -1,0 +1,35 @@
+@model SiakWebApps.Models.Room
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm borderless">
+            <tr>
+                <th style="width: 30%">Name</th>
+                <td>: @Model.Nama</td>
+            </tr>
+            <tr>
+                <th>Capacity</th>
+                <td>: @Model.Kapasitas</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>: @(Model.Lokasi ?? "-")</td>
+            </tr>
+            <tr>
+                <th>Room Type</th>
+                <td>: @Model.TipeRuangan</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>: @Model.CreatedAt.ToString("g")</td>
+            </tr>
+            <tr>
+                <th>Updated At</th>
+                <td>: @Model.UpdatedAt.ToString("g")</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer px-0 pb-0 mt-3 shadow-none border-top-0">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
