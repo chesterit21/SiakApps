@@ -1,0 +1,424 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fasilitas Sekolah - SiakApps</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/libs/fontawesome/css/all.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --accent-color: #ffc107;
+            --dark-bg: #343a40;
+            --light-bg: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .menu a:hover, .menu a.active {
+            color: white;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .login a {
+            color: white;
+            background-color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .login a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hero Section */
+        .facilities-hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/assets/img/facilities-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .facilities-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .facilities-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+
+        /* Facility Rows (Zig-Zag Layout) */
+        .facility-row {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            margin-bottom: 6rem;
+        }
+
+        .facility-row:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .facility-image {
+            flex: 1;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            height: 350px;
+        }
+
+        .facility-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .facility-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .facility-content {
+            flex: 1;
+        }
+
+        .facility-content h2 {
+            font-size: 2rem;
+            color: var(--dark-bg);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .facility-content h2::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin-top: 0.5rem;
+            border-radius: 2px;
+        }
+
+        .facility-content p {
+            color: #555;
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+        }
+
+        .feature-list li i {
+            color: var(--primary-color);
+        }
+
+        /* Other Facilities Grid */
+        .other-facilities {
+            background-color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .grid-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .grid-item {
+            background: var(--light-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .grid-item i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .grid-item h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-bg);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @@media (max-width: 768px) {
+            .menu { display: none; }
+            header { justify-content: space-between; }
+            .facility-row, .facility-row:nth-child(even) {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .facility-image {
+                width: 100%;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/Home/Index" class="brand">
+            <i class="fas fa-graduation-cap"></i> SIAK<span style="color:var(--primary-color)">APPS</span>
+        </a>
+        <ul class="menu">
+            <li><a href="/Home/Index">Home</a></li>
+            <li><a href="/Home/AboutUs">About Us</a></li>
+            <li><a href="/Home/News">News</a></li>
+            <li><a href="/Home/Admissions">PPDB</a></li>
+            <li><a href="/Home/Facilities" class="active">Facilities</a></li>
+            <li><a href="/Home/Gallery">Gallery</a></li>
+            <li><a href="/Home/ContactUs">Contact Us</a></li>
+        </ul>
+        <div class="login">
+            <a href="/Auth/Login">Login</a>
+        </div>
+    </header>
+
+    <section class="facilities-hero">
+        <h1>Fasilitas Sekolah</h1>
+        <p>Sarana dan prasarana modern untuk mendukung proses pembelajaran yang optimal dan pengembangan bakat siswa.</p>
+    </section>
+
+    <div class="container">
+        <!-- Facility 1 -->
+        <div class="facility-row">
+            <div class="facility-image">
+                <img src="/assets/img/facility-class.jpg" alt="Smart Classroom" onerror="this.src='https://placehold.co/600x400/007bff/ffffff?text=Smart+Classroom'">
+            </div>
+            <div class="facility-content">
+                <h2>Smart Classroom</h2>
+                <p>Ruang kelas yang dirancang modern dan interaktif, dilengkapi dengan teknologi terkini untuk menciptakan suasana belajar yang nyaman dan efektif.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> Full AC</li>
+                    <li><i class="fas fa-check-circle"></i> Proyektor & Smart Board</li>
+                    <li><i class="fas fa-check-circle"></i> CCTV Monitoring</li>
+                    <li><i class="fas fa-check-circle"></i> Koneksi Wi-Fi Cepat</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Facility 2 -->
+        <div class="facility-row">
+            <div class="facility-image">
+                <img src="/assets/img/facility-lab.jpg" alt="Laboratorium Komputer" onerror="this.src='https://placehold.co/600x400/28a745/ffffff?text=Lab+Komputer'">
+            </div>
+            <div class="facility-content">
+                <h2>Laboratorium Komputer</h2>
+                <p>Pusat pembelajaran teknologi informasi dengan perangkat komputer spesifikasi tinggi untuk menunjang praktik pemrograman, desain grafis, dan ujian berbasis komputer.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> 40 Unit PC High-End</li>
+                    <li><i class="fas fa-check-circle"></i> Jaringan LAN Gigabit</li>
+                    <li><i class="fas fa-check-circle"></i> Software Berlisensi</li>
+                    <li><i class="fas fa-check-circle"></i> Ruang Server Terdedikasi</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Facility 3 -->
+        <div class="facility-row">
+            <div class="facility-image">
+                <img src="/assets/img/facility-library.jpg" alt="Perpustakaan Digital" onerror="this.src='https://placehold.co/600x400/ffc107/333333?text=Perpustakaan'">
+            </div>
+            <div class="facility-content">
+                <h2>Perpustakaan Digital</h2>
+                <p>Gudang ilmu pengetahuan dengan ribuan koleksi buku fisik dan digital (e-book). Tempat yang tenang untuk membaca, riset, dan diskusi kelompok.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> E-Library Access</li>
+                    <li><i class="fas fa-check-circle"></i> Ruang Baca Nyaman</li>
+                    <li><i class="fas fa-check-circle"></i> Area Diskusi</li>
+                    <li><i class="fas fa-check-circle"></i> Komputer Pencarian</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Facility 4 -->
+        <div class="facility-row">
+            <div class="facility-image">
+                <img src="/assets/img/facility-sport.jpg" alt="Sarana Olahraga" onerror="this.src='https://placehold.co/600x400/dc3545/ffffff?text=Lapangan+Olahraga'">
+            </div>
+            <div class="facility-content">
+                <h2>Sarana Olahraga</h2>
+                <p>Lapangan olahraga multifungsi yang luas untuk mendukung kesehatan fisik dan pengembangan bakat atletik siswa dalam berbagai cabang olahraga.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> Lapangan Basket</li>
+                    <li><i class="fas fa-check-circle"></i> Lapangan Futsal</li>
+                    <li><i class="fas fa-check-circle"></i> Lapangan Voli</li>
+                    <li><i class="fas fa-check-circle"></i> Lintasan Lari</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <section class="other-facilities">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <h2 style="color: var(--dark-bg); margin-bottom: 1rem;">Fasilitas Penunjang Lainnya</h2>
+            <p style="max-width: 600px; margin: 0 auto; color: #666;">Kami juga menyediakan berbagai fasilitas pendukung untuk kenyamanan seluruh warga sekolah.</p>
+            
+            <div class="grid-container">
+                <div class="grid-item">
+                    <i class="fas fa-mosque"></i>
+                    <h3>Masjid Sekolah</h3>
+                    <p>Tempat ibadah yang luas, bersih, dan nyaman untuk kegiatan keagamaan.</p>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Kantin Sehat</h3>
+                    <p>Menyediakan makanan dan minuman higienis dengan standar gizi yang baik.</p>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-first-aid"></i>
+                    <h3>UKS</h3>
+                    <p>Unit Kesehatan Sekolah dengan tenaga medis dan peralatan P3K lengkap.</p>
+                </div>
+                <div class="grid-item">
+                    <i class="fas fa-theater-masks"></i>
+                    <h3>Aula Serbaguna</h3>
+                    <p>Ruang pertemuan besar untuk acara pentas seni, seminar, dan rapat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h3>SiakApps School System</h3>
+            <p>Membangun Generasi Cerdas dan Berkarakter.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: #aaa;">&copy; 2026 SiakApps. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

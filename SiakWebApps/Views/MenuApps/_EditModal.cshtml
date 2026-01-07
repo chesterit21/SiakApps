@@ -1,0 +1,46 @@
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editForm">
+                <input type="hidden" id="editId" name="Id" />
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="editMenuName" class="form-label">Menu Name</label>
+                        <input type="text" class="form-control" id="editMenuName" name="MenuName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUniqueCode" class="form-label">Unique Code</label>
+                        <input type="text" class="form-control" id="editUniqueCode" name="UniqueCode" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editMenuUrl" class="form-label">Menu URL</label>
+                        <input type="text" class="form-control" id="editMenuUrl" name="MenuUrl">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editParentMenuId" class="form-label">Parent Menu</label>
+                        <select class="form-control" id="editParentMenuId" name="ParentMenuId">
+                            <option value="">None</option>
+                            <!-- Parent menus will be populated via JavaScript -->
+                        </select>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="editIsParent" name="IsParent" value="true">
+                        <label class="form-check-label" for="editIsParent">Is Parent</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editLevelParent" class="form-label">Level</label>
+                        <input type="number" class="form-control" id="editLevelParent" name="LevelParent" value="0" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update Menu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

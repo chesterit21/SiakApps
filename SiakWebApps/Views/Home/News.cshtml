@@ -1,0 +1,477 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Berita & Kegiatan Sekolah - SiakApps</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/libs/fontawesome/css/all.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --accent-color: #ffc107;
+            --dark-bg: #343a40;
+            --light-bg: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .menu a:hover, .menu a.active {
+            color: white;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .login a {
+            color: white;
+            background-color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .login a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hero Section */
+        .news-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/assets/img/school-news-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .news-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .news-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Featured News */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 1rem;
+            color: var(--dark-bg);
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .main-featured {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            height: 400px;
+        }
+
+        .main-featured img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .main-featured:hover img {
+            transform: scale(1.05);
+        }
+
+        .featured-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 2rem;
+            color: white;
+        }
+
+        .tag {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .sub-featured {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sub-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            height: 100%;
+        }
+
+        .sub-card img {
+            width: 40%;
+            object-fit: cover;
+        }
+
+        .sub-card-content {
+            padding: 1rem;
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sub-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            color: var(--dark-bg);
+        }
+
+        .date {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card h3 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            color: var(--dark-bg);
+            margin-bottom: 0.5rem;
+        }
+
+        .news-excerpt {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-featured {
+                height: 300px;
+            }
+            .menu {
+                display: none; /* Mobile menu hidden for simplicity */
+            }
+            header {
+                justify-content: space-between;
+            }
+            .brand {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/Home/Index" class="brand">
+            <i class="fas fa-graduation-cap"></i> SIAK<span style="color:var(--primary-color)">APPS</span>
+        </a>
+        <ul class="menu">
+            <li><a href="/Home/Index">Home</a></li>
+            <li><a href="/Home/AboutUs">About Us</a></li>
+            <li><a href="/Home/News" class="active">News</a></li>
+            <li><a href="/Home/Admissions">PPDB</a></li>
+            <li><a href="/Home/Facilities">Facilities</a></li>
+            <li><a href="/Home/Gallery">Gallery</a></li>
+            <li><a href="/Home/ContactUs">Contact Us</a></li>
+        </ul>
+        <div class="login">
+            <a href="/Auth/Login">Login</a>
+        </div>
+    </header>
+
+    <section class="news-hero">
+        <h1>Kabar Sekolah</h1>
+        <p>Informasi terkini seputar kegiatan, prestasi, dan pengumuman sekolah.</p>
+    </section>
+
+    <div class="container">
+        <!-- Featured Section -->
+        <h2 class="section-title">Berita Utama</h2>
+        <div class="featured-grid">
+            <div class="main-featured">
+                <!-- Placeholder image used via onerror if local file is missing -->
+                <img src="/assets/img/news-main.jpg" alt="Juara Olimpiade Sains" onerror="this.src='https://placehold.co/800x600/007bff/ffffff?text=Prestasi+Siswa'">
+                <div class="featured-content">
+                    <span class="tag">Prestasi</span>
+                    <h2>Tim Olimpiade Sains Raih Medali Emas Tingkat Nasional</h2>
+                    <p>Siswa-siswi terbaik kita kembali mengharumkan nama sekolah dengan prestasi gemilang di ajang OSN 2025.</p>
+                </div>
+            </div>
+            <div class="sub-featured">
+                <div class="sub-card">
+                    <img src="/assets/img/news-2.jpg" alt="Penerimaan Siswa Baru" onerror="this.src='https://placehold.co/400x300/28a745/ffffff?text=PPDB+2026'">
+                    <div class="sub-card-content">
+                        <span class="date"><i class="far fa-calendar-alt"></i> 5 Jan 2026</span>
+                        <h3>Penerimaan Peserta Didik Baru (PPDB) Tahun Ajaran 2026/2027 Segera Dibuka</h3>
+                    </div>
+                </div>
+                <div class="sub-card">
+                    <img src="/assets/img/news-3.jpg" alt="Kunjungan Museum" onerror="this.src='https://placehold.co/400x300/ffc107/333333?text=Study+Tour'">
+                    <div class="sub-card-content">
+                        <span class="date"><i class="far fa-calendar-alt"></i> 20 Des 2025</span>
+                        <h3>Kunjungan Edukasi Kelas X ke Museum Nasional</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent News Grid -->
+        <h2 class="section-title">Kegiatan Terbaru</h2>
+        <div class="news-grid">
+            <!-- News Item 1 -->
+            <div class="news-card">
+                <img src="/assets/img/news-4.jpg" alt="Porseni" onerror="this.src='https://placehold.co/600x400/17a2b8/ffffff?text=Porseni'">
+                <div class="news-card-body">
+                    <span class="tag" style="background-color: #17a2b8;">Kegiatan</span>
+                    <div class="date" style="margin-top: 0.5rem;"><i class="far fa-calendar-alt"></i> 15 Des 2025</div>
+                    <h3>Pekan Olahraga dan Seni (PORSENI) 2025 Berlangsung Meriah</h3>
+                    <p class="news-excerpt">Antusiasme siswa sangat tinggi dalam mengikuti berbagai lomba olahraga dan seni yang diadakan selama satu minggu penuh.</p>
+                    <a href="#" class="read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- News Item 2 -->
+            <div class="news-card">
+                <img src="/assets/img/news-5.jpg" alt="Seminar Parenting" onerror="this.src='https://placehold.co/600x400/6610f2/ffffff?text=Seminar'">
+                <div class="news-card-body">
+                    <span class="tag" style="background-color: #6610f2;">Parenting</span>
+                    <div class="date" style="margin-top: 0.5rem;"><i class="far fa-calendar-alt"></i> 10 Des 2025</div>
+                    <h3>Seminar Parenting: "Mendidik Anak di Era Digital"</h3>
+                    <p class="news-excerpt">Sekolah mengundang pakar psikologi anak untuk berbagi wawasan kepada orang tua mengenai tantangan mendidik anak gen Z.</p>
+                    <a href="#" class="read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- News Item 3 -->
+            <div class="news-card">
+                <img src="/assets/img/news-6.jpg" alt="Kerja Bakti" onerror="this.src='https://placehold.co/600x400/fd7e14/ffffff?text=Lingkungan'">
+                <div class="news-card-body">
+                    <span class="tag" style="background-color: #fd7e14;">Lingkungan</span>
+                    <div class="date" style="margin-top: 0.5rem;"><i class="far fa-calendar-alt"></i> 1 Des 2025</div>
+                    <h3>Gerakan Sekolah Bersih: Kerja Bakti Massal</h3>
+                    <p class="news-excerpt">Seluruh warga sekolah bergotong royong membersihkan lingkungan sekolah untuk menciptakan suasana belajar yang nyaman.</p>
+                    <a href="#" class="read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+             <!-- News Item 4 -->
+            <div class="news-card">
+                <img src="/assets/img/news-7.jpg" alt="Pelantikan OSIS" onerror="this.src='https://placehold.co/600x400/20c997/ffffff?text=OSIS'">
+                <div class="news-card-body">
+                    <span class="tag" style="background-color: #20c997;">Organisasi</span>
+                    <div class="date" style="margin-top: 0.5rem;"><i class="far fa-calendar-alt"></i> 25 Nov 2025</div>
+                    <h3>Pelantikan Pengurus OSIS Periode 2025/2026</h3>
+                    <p class="news-excerpt">Selamat kepada pengurus OSIS yang baru dilantik. Semoga dapat menjalankan amanah dengan baik dan membawa kemajuan bagi sekolah.</p>
+                    <a href="#" class="read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+             <!-- News Item 5 -->
+            <div class="news-card">
+                <img src="/assets/img/news-8.jpg" alt="Ujian Akhir" onerror="this.src='https://placehold.co/600x400/e83e8c/ffffff?text=Akademik'">
+                <div class="news-card-body">
+                    <span class="tag" style="background-color: #e83e8c;">Akademik</span>
+                    <div class="date" style="margin-top: 0.5rem;"><i class="far fa-calendar-alt"></i> 18 Nov 2025</div>
+                    <h3>Jadwal Ujian Akhir Semester Ganjil</h3>
+                    <p class="news-excerpt">Pengumuman jadwal pelaksanaan Ujian Akhir Semester (UAS) Ganjil Tahun Ajaran 2025/2026. Persiapkan diri kalian!</p>
+                    <a href="#" class="read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+             <!-- News Item 6 -->
+            <div class="news-card">
+                <img src="/assets/img/news-9.jpg" alt="Ekstrakurikuler" onerror="this.src='https://placehold.co/600x400/343a40/ffffff?text=Ekskul'">
+                <div class="news-card-body">
+                    <span class="tag" style="background-color: #343a40;">Ekstrakurikuler</span>
+                    <div class="date" style="margin-top: 0.5rem;"><i class="far fa-calendar-alt"></i> 10 Nov 2025</div>
+                    <h3>Demo Ekstrakurikuler Robotik</h3>
+                    <p class="news-excerpt">Tim Robotik sekolah menampilkan hasil karya terbaru mereka di hadapan siswa-siswi kelas X.</p>
+                    <a href="#" class="read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <h3>SiakApps School System</h3>
+            <p>Membangun Generasi Cerdas dan Berkarakter.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: #aaa;">&copy; 2026 SiakApps. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

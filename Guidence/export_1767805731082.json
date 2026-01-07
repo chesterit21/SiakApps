@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "menuname": "Home",
+    "unique_code": "MNHOME",
+    "menu_url": "/",
+    "parent_menu_id": null,
+    "is_parent": false,
+    "level_parent": 0
+  },
+  {
+    "id": 2,
+    "menuname": "Master Data",
+    "unique_code": "UMMSTRDATA",
+    "menu_url": "#",
+    "parent_menu_id": null,
+    "is_parent": true,
+    "level_parent": 0
+  },
+  {
+    "id": 3,
+    "menuname": "Guru",
+    "unique_code": "MSTR-GURU",
+    "menu_url": "/Teacher",
+    "parent_menu_id": 2,
+    "is_parent": false,
+    "level_parent": 1
+  },
+  {
+    "id": 4,
+    "menuname": "Orang Tua",
+    "unique_code": "MSTR-PARENT",
+    "menu_url": "/Parents",
+    "parent_menu_id": 2,
+    "is_parent": false,
+    "level_parent": 1
+  }
+]

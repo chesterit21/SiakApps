@@ -1,0 +1,170 @@
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="createForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="menuName" class="form-label">Menu Name</label>
+                        <input type="text" class="form-control" id="menuName" name="MenuName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="uniqueCode" class="form-label">Unique Code</label>
+                        <input type="text" class="form-control" id="uniqueCode" name="UniqueCode" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="menuUrl" class="form-label">Menu URL</label>
+                        <input type="text" class="form-control" id="menuUrl" name="MenuUrl">
+                    </div>
+                    <div class="mb-3">
+                        <label for="parentMenuId" class="form-label">Parent Menu</label>
+                        <select class="form-control" id="parentMenuId" name="ParentMenuId">
+                            <option value="">None</option>
+                            <!-- Parent menus will be populated via JavaScript -->
+                        </select>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="isParent" name="IsParent" value="true">
+                        <label class="form-check-label" for="isParent">Is Parent</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="levelParent" class="form-label">Level</label>
+                        <input type="number" class="form-control" id="levelParent" name="LevelParent" value="0" required readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create Menu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to load parent menus
+    async function loadParentMenus() {
+        try {
+            const response = await fetch('/MenuApps/GetParentMenus');
+            const data = await response.json();
+            
+            const parentMenuSelect = document.getElementById('parentMenuId');
+            parentMenuSelect.innerHTML = '<option value="">None</option>';
+            
+            data.forEach(menu => {
+                const option = document.createElement('option');
+                option.value = menu.id;
+                option.textContent = menu.menuName;
+                option.dataset.level = menu.levelParent;
+                parentMenuSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading parent menus:', error);
+        }
+    }
+
+    // Function to handle parent menu selection change
+    function handleParentMenuChange() {
+        const parentMenuSelect = document.getElementById('parentMenuId');
+        const levelInput = document.getElementById('levelParent');
+        const selectedOption = parentMenuSelect.options[parentMenuSelect.selectedIndex];
+        
+        if (selectedOption.value === '') {
+            // If "None" is selected, set level to 0
+            levelInput.value = 0;
+        } else {
+            // Get the level of the selected parent and add 1
+            const parentLevel = parseInt(selectedOption.dataset.level) || 0;
+            levelInput.value = parentLevel + 1;
+        }
+    }
+
+    // When modal is shown, load parent menus and attach event listener
+    document.addEventListener('DOMContentLoaded', function() {
+        // Listen to modal show event
+        const createModalElement = document.getElementById('createModal');
+        createModalElement.addEventListener('shown.bs.modal', function () {
+            loadParentMenus();
+        });
+        
+        // Listen to parent menu change
+        document.getElementById('parentMenuId').addEventListener('change', handleParentMenuChange);
+    });
+
+```
+
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/MenuApps/_CreateModal.cshtml
+```javascript
+<<<<<<< SEARCH
+    document.addEventListener('DOMContentLoaded', function() {
+        // Listen to modal show event
+        const createModalElement = document.getElementById('createModal');
+        createModalElement.addEventListener('shown.bs.modal', function () {
+            loadParentMenus();
+        });
+        
+        // Listen to parent menu change
+        document.getElementById('parentMenuId').addEventListener('change', handleParentMenuChange);
+    });
+
+    // After creating a new menu, refresh the parent menu list
+    function refreshParentMenuList() {
+        loadParentMenus();
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Listen to modal show event
+        const createModalElement = document.getElementById('createModal');
+        createModalElement.addEventListener('shown.bs.modal', function () {
+            loadParentMenus();
+        });
+        
+        // Listen to parent menu change
+        document.getElementById('parentMenuId').addEventListener('change', handleParentMenuChange);
+        
+        // Handle form submission
+        document.getElementById('createForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const menuData = Object.fromEntries(formData);
+            
+            // Convert boolean value properly
+            menuData.IsParent = formData.get('IsParent') === 'true';
+            
+            try {
+                const response = await fetch('/MenuApps/Create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(menuData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(result.message);
+                    document.getElementById('createForm').reset();
+                    // Reset level to 0 after form reset
+                    document.getElementById('levelParent').value = 0;
+                    // Close modal
+                    bootstrap.Modal.getInstance(createModalElement).hide();
+                    // Refresh the parent menu list in the modal
+                    loadParentMenus();
+                    // You might also want to refresh the main menu list on the page
+                    if (typeof loadMenuApps === 'function') {
+                        loadMenuApps(); // assuming there's a function to reload the menu list
+                    }
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error creating menu:', error);
+                alert('An error occurred while creating the menu.');
+            }
+        });
+    });
+</script>

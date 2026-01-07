@@ -1,0 +1,203 @@
+@{
+    ViewData["Title"] = "Role Menu Access";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">@ViewData["Title"]</h3>
+                    <div class="card-tools">
+                        <select id="roleSelect" class="form-control" style="width: 200px; display: inline-block; margin-right: 10px;"></select>
+                        <button id="saveButton" class="btn btn-success" disabled><i class="fas fa-save"></i> Save</button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row" style="height: 500px; overflow-y: auto;"> 
+                    <table id="menuTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAllCheckbox"></th>
+                                <th>Menu Name</th>
+                                <th>IsView</th>
+                                <th>IsAdd</th>
+                                <th>IsEdit</th>
+                                <th>IsDelete</th>
+                                <th>IsApprove</th>
+                                <th>IsDownload</th>
+                                <th>IsPrint</th>
+                                <th>IsUpload</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var roleId = null;
+            var menus = [];
+
+            // Load roles for dropdown
+            function loadRoles() {
+                return $.get('/RoleMenuAccess/GetRoles')
+                    .then(function(response) {
+                        var roles = response.data;
+                        var options = '';
+
+                        options += '<option value="ALL">== Pilih Group Akses ==</option>';
+                        roles.forEach(function(role) {
+                            options += '<option value="' + role.id + '">' + role.name + '</option>';
+                        });
+
+                        $('#roleSelect').html(options);
+                    });
+            }
+
+            // Load menus by role
+            function loadMenusByRole(roleId) {
+                return $.get('/RoleMenuAccess/GetMenusByRole?roleId=' + roleId)
+                    .then(function(response) {
+                        menus = response.data;
+                        populateTable();
+                    });
+            }
+
+            // Populate table with menu data
+            function populateTable() {
+                var tbody = $('#menuTable tbody');
+                tbody.empty();
+
+                menus.forEach(function(menu) {
+                    var hasAnyPermission = menu.isView || menu.isAdd || menu.isEdit || menu.isDelete || menu.isApprove || menu.isDownload || menu.isPrint || menu.isUpload;
+                    
+                    var $row = $('<tr>');
+
+                    // Main checkbox
+                    var $mainCheckbox = $('<input>', { type: 'checkbox', class: 'menuCheckbox', 'data-id': menu.menuId });
+                    $mainCheckbox.prop('checked', hasAnyPermission);
+                    $('<td>').append($mainCheckbox).appendTo($row);
+
+                    // Menu name
+                    $('<td>').text(menu.menuName).appendTo($row);
+
+                    // A helper function for creating permission checkboxes
+                    function createPermissionCheckbox(className, isChecked) {
+                        var $checkbox = $('<input>', { type: 'checkbox', class: className });
+                        $checkbox.prop('checked', isChecked);
+                        $('<td>').append($checkbox).appendTo($row);
+                    }
+
+                    createPermissionCheckbox('isView', menu.isView);
+                    createPermissionCheckbox('isAdd', menu.isAdd);
+                    createPermissionCheckbox('isEdit', menu.isEdit);
+                    createPermissionCheckbox('isDelete', menu.isDelete);
+                    createPermissionCheckbox('isApprove', menu.isApprove);
+                    createPermissionCheckbox('isDownload', menu.isDownload);
+                    createPermissionCheckbox('isPrint', menu.isPrint);
+                    createPermissionCheckbox('isUpload', menu.isUpload);
+
+                    tbody.append($row);
+                });
+
+                $('#saveButton').prop('disabled', false);
+            }
+
+            // Handle select all checkbox
+            $('#selectAllCheckbox').change(function() {
+                var isChecked = $(this).is(':checked');
+                $('.menuCheckbox').prop('checked', isChecked).trigger('change');
+            });
+
+            // Handle individual row checkbox to check/uncheck all permissions in that row
+            $('#menuTable tbody').on('change', '.menuCheckbox', function() {
+                var isChecked = $(this).is(':checked');
+                $(this).closest('tr').find('.isView, .isAdd, .isEdit, .isDelete, .isApprove, .isDownload, .isPrint, .isUpload').prop('checked', isChecked);
+            });
+
+            // Handle permission checkbox change to update the main row checkbox
+            $('#menuTable tbody').on('change', '.isView, .isAdd, .isEdit, .isDelete, .isApprove, .isDownload, .isPrint, .isUpload', function() {
+                var $row = $(this).closest('tr');
+                var hasAnyPermission = $row.find('.isView, .isAdd, .isEdit, .isDelete, .isApprove, .isDownload, .isPrint, .isUpload').is(':checked');
+                $row.find('.menuCheckbox').prop('checked', hasAnyPermission);
+            });
+
+            // Handle role selection change
+            $('#roleSelect').change(function() {
+                roleId = $(this).val();
+                if (roleId) {
+                    loadMenusByRole(roleId);
+                } else {
+                    $('#menuTable tbody').empty();
+                    $('#saveButton').prop('disabled', true);
+                }
+            });
+
+            // Handle save button click
+            $('#saveButton').click(function() {
+                var selectedMenus = [];
+
+                $('#menuTable tbody tr').each(function() {
+                    var menuId = $(this).find('.menuCheckbox').data('id');
+                    var isView = $(this).find('.isView').is(':checked');
+                    var isAdd = $(this).find('.isAdd').is(':checked');
+                    var isEdit = $(this).find('.isEdit').is(':checked');
+                    var isDelete = $(this).find('.isDelete').is(':checked');
+                    var isApprove = $(this).find('.isApprove').is(':checked');
+                    var isDownload = $(this).find('.isDownload').is(':checked');
+                    var isPrint = $(this).find('.isPrint').is(':checked');
+                    var isUpload = $(this).find('.isUpload').is(':checked');
+
+                    if (isView || isAdd || isEdit || isDelete || isApprove || isDownload || isPrint || isUpload) {
+                        selectedMenus.push({
+                            menuId: menuId,
+                            isView: isView,
+                            isAdd: isAdd,
+                            isEdit: isEdit,
+                            isDelete: isDelete,
+                            isApprove: isApprove,
+                            isDownload: isDownload,
+                            isPrint: isPrint,
+                            isUpload: isUpload
+                        });
+                    }
+                });
+
+                $.ajax({
+                    url: '/RoleMenuAccess/SaveRoleMenus',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        roleId: roleId,
+                        menus: selectedMenus
+                    }),
+                    success: function(result) {
+                        if (result.success) {
+                            alert(result.message);
+                        } else {
+                            alert('Error saving role menus');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error saving role menus: ' + xhr.responseText);
+                    }
+                });
+            });
+
+            // Initialize page
+            loadRoles();
+        });
+    </script>
+}

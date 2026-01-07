@@ -1,0 +1,500 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galeri Sekolah - SiakApps</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/libs/fontawesome/css/all.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --accent-color: #ffc107;
+            --dark-bg: #343a40;
+            --light-bg: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .menu a:hover, .menu a.active {
+            color: white;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .login a {
+            color: white;
+            background-color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .login a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hero Section */
+        .gallery-hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/assets/img/gallery-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .gallery-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .gallery-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            opacity: 0.9;
+        }
+
+        /* Gallery Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,123,255,0.3);
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            height: 250px;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 1.5rem;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+
+        .overlay h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+        }
+
+        .overlay p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 900px;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 5px;
+            animation-name: zoom;
+            animation-duration: 0.3s;
+        }
+
+        @@keyframes zoom {
+            from {transform:scale(0)} 
+            to {transform:scale(1)}
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-lightbox:hover,
+        .close-lightbox:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @@media (max-width: 768px) {
+            .menu { display: none; }
+            header { justify-content: space-between; }
+            .gallery-hero h1 { font-size: 2rem; }
+            .lightbox-content { width: 95%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/Home/Index" class="brand">
+            <i class="fas fa-graduation-cap"></i> SIAK<span style="color:var(--primary-color)">APPS</span>
+        </a>
+        <ul class="menu">
+            <li><a href="/Home/Index">Home</a></li>
+            <li><a href="/Home/AboutUs">About Us</a></li>
+            <li><a href="/Home/News">News</a></li>
+            <li><a href="/Home/Admissions">PPDB</a></li>
+            <li><a href="/Home/Facilities">Facilities</a></li>
+            <li><a href="/Home/Gallery" class="active">Gallery</a></li>
+            <li><a href="/Home/ContactUs">Contact Us</a></li>
+        </ul>
+        <div class="login">
+            <a href="/Auth/Login">Login</a>
+        </div>
+    </header>
+
+    <section class="gallery-hero">
+        <h1>Galeri Sekolah</h1>
+        <p>Momen-momen berharga dan fasilitas terbaik di lingkungan sekolah kami.</p>
+    </section>
+
+    <div class="container">
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterGallery('all')">Semua</button>
+            <button class="filter-btn" onclick="filterGallery('kegiatan')">Kegiatan</button>
+            <button class="filter-btn" onclick="filterGallery('fasilitas')">Fasilitas</button>
+            <button class="filter-btn" onclick="filterGallery('prestasi')">Prestasi</button>
+            <button class="filter-btn" onclick="filterGallery('ekskul')">Ekstrakurikuler</button>
+        </div>
+
+        <div class="gallery-grid">
+            <!-- Kegiatan -->
+            <div class="gallery-item" data-category="kegiatan" onclick="openLightbox(this)">
+                <img src="/assets/img/gallery-1.jpg" alt="Upacara Bendera" onerror="this.src='https://placehold.co/600x400/007bff/ffffff?text=Upacara+Bendera'">
+                <div class="overlay">
+                    <h3>Upacara Bendera</h3>
+                    <p>Kegiatan rutin setiap hari Senin untuk menanamkan jiwa nasionalisme.</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="kegiatan" onclick="openLightbox(this)">
+                <img src="/assets/img/gallery-2.jpg" alt="Study Tour" onerror="this.src='https://placehold.co/600x400/28a745/ffffff?text=Study+Tour'">
+                <div class="overlay">
+                    <h3>Study Tour 2025</h3>
+                    <p>Kunjungan edukasi ke situs bersejarah.</p>
+                </div>
+            </div>
+
+            <!-- Fasilitas -->
+            <div class="gallery-item" data-category="fasilitas" onclick="openLightbox(this)">
+                <img src="/assets/img/gallery-3.jpg" alt="Perpustakaan" onerror="this.src='https://placehold.co/600x400/ffc107/333333?text=Perpustakaan'">
+                <div class="overlay">
+                    <h3>Perpustakaan Modern</h3>
+                    <p>Koleksi buku lengkap dengan ruang baca yang nyaman dan ber-AC.</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="fasilitas" onclick="openLightbox(this)">
+                <img src="/assets/img/gallery-4.jpg" alt="Lab Komputer" onerror="this.src='https://placehold.co/600x400/17a2b8/ffffff?text=Lab+Komputer'">
+                <div class="overlay">
+                    <h3>Laboratorium Komputer</h3>
+                    <p>Fasilitas komputer spesifikasi tinggi untuk menunjang pembelajaran IT.</p>
+                </div>
+            </div>
+
+            <!-- Prestasi -->
+            <div class="gallery-item" data-category="prestasi" onclick="openLightbox(this)">
+                <img src="/assets/img/gallery-5.jpg" alt="Juara Basket" onerror="this.src='https://placehold.co/600x400/fd7e14/ffffff?text=Juara+Basket'">
+                <div class="overlay">
+                    <h3>Juara 1 Basket Provinsi</h3>
+                    <p>Tim basket sekolah berhasil meraih piala bergilir gubernur.</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="prestasi" onclick="openLightbox(this)">
+                <img src="/assets/img/gallery-6.jpg" alt="Olimpiade Matematika" onerror="this.src='https://placehold.co/600x400/6610f2/ffffff?text=Olimpiade'">
+                <div class="overlay">
+                    <h3>Medali Perak Olimpiade</h3>
+                    <p>Prestasi membanggakan di ajang Olimpiade Sains Nasional.</p>
+                </div>
+            </div>
+
+            <!-- Ekskul -->
+            <div class="gallery-item" data-category="ekskul" onclick="openLightbox(this)">
+                <img src="/assets/img/gallery-7.jpg" alt="Pramuka" onerror="this.src='https://placehold.co/600x400/e83e8c/ffffff?text=Pramuka'">
+                <div class="overlay">
+                    <h3>Kegiatan Pramuka</h3>
+                    <p>Membentuk karakter mandiri dan disiplin melalui kegiatan kepramukaan.</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="ekskul" onclick="openLightbox(this)">
+                <img src="/assets/img/gallery-8.jpg" alt="Paduan Suara" onerror="this.src='https://placehold.co/600x400/20c997/ffffff?text=Paduan+Suara'">
+                <div class="overlay">
+                    <h3>Paduan Suara Sekolah</h3>
+                    <p>Penampilan memukau tim paduan suara dalam acara wisuda.</p>
+                </div>
+            </div>
+             <div class="gallery-item" data-category="fasilitas" onclick="openLightbox(this)">
+                <img src="/assets/img/gallery-9.jpg" alt="Masjid Sekolah" onerror="this.src='https://placehold.co/600x400/343a40/ffffff?text=Masjid+Sekolah'">
+                <div class="overlay">
+                    <h3>Masjid Ulul Albab</h3>
+                    <p>Sarana ibadah yang luas dan bersih untuk warga sekolah.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="caption"></div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <h3>SiakApps School System</h3>
+            <p>Membangun Generasi Cerdas dan Berkarakter.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: #aaa;">&copy; 2026 SiakApps. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Filter Functionality
+        function filterGallery(category) {
+            // Update active button
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter items
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                    // Add animation
+                    item.style.animation = 'fadeIn 0.5s';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Lightbox Functionality
+        function openLightbox(element) {
+            const modal = document.getElementById('lightbox');
+            const modalImg = document.getElementById('lightbox-img');
+            const captionText = document.getElementById('caption');
+            const img = element.querySelector('img');
+            const title = element.querySelector('h3').innerText;
+            const desc = element.querySelector('p').innerText;
+
+            modal.style.display = "block";
+            modalImg.src = img.src;
+            // Use placeholder if src fails (handled by onerror in img tag, but good to be safe)
+            modalImg.onerror = function() { this.src = img.src; }; 
+            
+            captionText.innerHTML = `<h3>${title}</h3><p>${desc}</p>`;
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = "none";
+        }
+
+        // Close lightbox when clicking outside the image
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Add fade in animation style
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @@keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,547 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - SiakApps</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/libs/fontawesome/css/all.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables & Reset */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --accent-color: #ffc107;
+            --dark-bg: #343a40;
+            --light-bg: #f8f9fa;
+            --text-color: #333;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .menu a:hover, .menu a.active {
+            color: white;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .login a {
+            color: white;
+            background-color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .login a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hero Section */
+        .faq-hero {
+            background: linear-gradient(135deg, var(--primary-color), #0056b3);
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .faq-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10%);
+            background-size: 20px 20px;
+            opacity: 0.3;
+            transform: rotate(45deg);
+        }
+
+        .faq-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            position: relative;
+            z-index: 1;
+            opacity: 0.9;
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            z-index: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            outline: none;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+
+        /* FAQ Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        /* Categories */
+        .faq-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--secondary-color);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0,123,255,0.3);
+        }
+
+        /* Accordion */
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--dark-bg);
+            background: white;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.05rem;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+            color: var(--primary-color);
+        }
+
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #fafafa;
+            border-top: 1px solid #eee;
+        }
+
+        .faq-answer p {
+            padding: 1.5rem;
+            margin: 0;
+            color: #555;
+        }
+
+        /* Contact Support Section */
+        .support-section {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 3rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .support-section h2 {
+            margin-bottom: 1rem;
+            color: var(--dark-bg);
+        }
+
+        .support-btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .support-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .menu { display: none; }
+            header { justify-content: space-between; }
+            .faq-hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="/Home/Index" class="brand">
+            <i class="fas fa-graduation-cap"></i> SIAK<span style="color:var(--primary-color)">APPS</span>
+        </a>
+        <ul class="menu">
+            <li><a href="/Home/Index">Home</a></li>
+            <li><a href="/Home/AboutUs">About Us</a></li>
+            <li><a href="/Home/News">News</a></li>
+            <li><a href="/Home/Admissions">PPDB</a></li>
+            <li><a href="/Home/Facilities">Facilities</a></li>
+            <li><a href="/Home/Gallery">Gallery</a></li>
+            <li><a href="/Home/ContactUs">Contact Us</a></li>
+        </ul>
+        <div class="login">
+            <a href="/Auth/Login">Login</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="faq-hero">
+        <h1>Pusat Bantuan & FAQ</h1>
+        <p>Temukan jawaban atas pertanyaan umum mengenai penggunaan Sistem Akademik Sekolah (SiakApps).</p>
+        <div class="search-box">
+            <input type="text" id="faqSearch" placeholder="Cari pertanyaan atau topik...">
+            <i class="fas fa-search"></i>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Categories -->
+        <div class="faq-categories">
+            <button class="category-btn active" onclick="filterFaq('all')"><i class="fas fa-th-large"></i> Semua</button>
+            <button class="category-btn" onclick="filterFaq('umum')"><i class="fas fa-info-circle"></i> Umum</button>
+            <button class="category-btn" onclick="filterFaq('siswa')"><i class="fas fa-user-graduate"></i> Siswa</button>
+            <button class="category-btn" onclick="filterFaq('guru')"><i class="fas fa-chalkboard-teacher"></i> Guru</button>
+            <button class="category-btn" onclick="filterFaq('ortu')"><i class="fas fa-user-friends"></i> Orang Tua</button>
+        </div>
+
+        <!-- FAQ Items -->
+        <div class="faq-list">
+            <!-- Umum -->
+            <div class="faq-item" data-category="umum">
+                <button class="faq-question">
+                    Apa itu SiakApps?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>SiakApps adalah Sistem Informasi Akademik Sekolah terintegrasi yang dirancang untuk memudahkan pengelolaan data akademik, administrasi, dan komunikasi antara sekolah, siswa, guru, dan orang tua.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="umum">
+                <button class="faq-question">
+                    Bagaimana cara mendapatkan akun SiakApps?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Akun SiakApps dibuatkan secara otomatis oleh administrator sekolah saat Anda terdaftar sebagai siswa, guru, atau staf. Informasi login (Username dan Password awal) akan dikirimkan melalui email terdaftar atau dibagikan oleh Tata Usaha.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="umum">
+                <button class="faq-question">
+                    Apakah SiakApps bisa diakses lewat HP?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Ya, SiakApps berbasis web dan responsif, sehingga dapat diakses melalui browser di smartphone (Android/iOS), tablet, maupun komputer desktop.</p>
+                </div>
+            </div>
+
+            <!-- Siswa -->
+            <div class="faq-item" data-category="siswa">
+                <button class="faq-question">
+                    Bagaimana cara melihat jadwal pelajaran?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Setelah login sebagai siswa, masuk ke menu <strong>Akademik</strong> lalu pilih <strong>Jadwal Pelajaran</strong>. Anda dapat melihat jadwal mingguan dan ruangan kelas.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="siswa">
+                <button class="faq-question">
+                    Bagaimana jika saya lupa password?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Klik tombol "Lupa Password" di halaman login, masukkan email yang terdaftar, dan ikuti instruksi reset password yang dikirimkan ke email Anda. Jika tidak menerima email, hubungi admin IT sekolah.</p>
+                </div>
+            </div>
+
+             <div class="faq-item" data-category="siswa">
+                <button class="faq-question">
+                    Dimana saya bisa melihat nilai rapor?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Nilai rapor dapat dilihat pada menu <strong>Hasil Studi</strong> atau <strong>Rapor</strong>. Nilai biasanya dipublikasikan setelah periode penilaian akhir semester selesai dan disahkan oleh Wali Kelas.</p>
+                </div>
+            </div>
+
+            <!-- Guru -->
+            <div class="faq-item" data-category="guru">
+                <button class="faq-question">
+                    Bagaimana cara menginput nilai siswa?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Login sebagai Guru, pilih menu <strong>Penilaian</strong>, pilih Kelas dan Mata Pelajaran, lalu input nilai pada form yang tersedia. Jangan lupa klik Simpan setelah selesai.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="guru">
+                <button class="faq-question">
+                    Bagaimana cara mengajukan cuti melalui sistem?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Masuk ke menu <strong>Kepegawaian</strong> > <strong>Pengajuan Cuti</strong>. Isi formulir pengajuan cuti, lampirkan dokumen pendukung jika ada, dan kirim untuk persetujuan Kepala Sekolah.</p>
+                </div>
+            </div>
+
+            <!-- Orang Tua -->
+            <div class="faq-item" data-category="ortu">
+                <button class="faq-question">
+                    Bagaimana cara memantau kehadiran anak saya?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Orang tua dapat melihat rekap kehadiran harian pada dashboard utama setelah login, atau melalui menu <strong>Monitoring Siswa</strong> > <strong>Kehadiran</strong>.</p>
+                </div>
+            </div>
+             <div class="faq-item" data-category="ortu">
+                <button class="faq-question">
+                    Apakah saya bisa membayar SPP melalui aplikasi ini?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Saat ini fitur pembayaran langsung belum tersedia. Namun, Anda dapat melihat tagihan dan riwayat pembayaran SPP pada menu <strong>Keuangan</strong>. Bukti transfer dapat diunggah melalui menu tersebut untuk verifikasi.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Section -->
+        <div class="support-section">
+            <img src="/assets/img/support-icon.png" alt="Support" style="width: 80px; margin-bottom: 1rem;" onerror="this.style.display='none'">
+            <h2>Masih punya pertanyaan?</h2>
+            <p>Jika Anda tidak menemukan jawaban yang Anda cari, tim support kami siap membantu Anda.</p>
+            <a href="/Home/ContactUs" class="support-btn">Hubungi Kami</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <h3>SiakApps School System</h3>
+            <p>Membangun Generasi Cerdas dan Berkarakter.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: #aaa;">&copy; 2026 SiakApps. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Accordion Functionality
+        const questions = document.querySelectorAll('.faq-question');
+        
+        questions.forEach(question => {
+            question.addEventListener('click', () => {
+                const activeQuestion = document.querySelector('.faq-question.active');
+                
+                // Close currently open item if it's not the clicked one
+                if(activeQuestion && activeQuestion !== question) {
+                    activeQuestion.classList.remove('active');
+                    activeQuestion.nextElementSibling.style.maxHeight = null;
+                }
+
+                question.classList.toggle('active');
+                const answer = question.nextElementSibling;
+                
+                if(question.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                } else {
+                    answer.style.maxHeight = null;
+                }
+            });
+        });
+
+        // Filter Functionality
+        function filterFaq(category) {
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Filter items
+            const items = document.querySelectorAll('.faq-item');
+            items.forEach(item => {
+                if(category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Search Functionality
+        const searchInput = document.getElementById('faqSearch');
+        searchInput.addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.faq-item');
+            
+            items.forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if(question.includes(term) || answer.includes(term)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

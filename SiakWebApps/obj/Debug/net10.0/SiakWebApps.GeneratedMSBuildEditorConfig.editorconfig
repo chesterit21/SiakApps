@@ -62,6 +62,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2xhc3Nlcy9fRWRpdE1vZGFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Dashboard/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Exams/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXhhbXMvRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -94,8 +98,40 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXhwZW5zZS9fRWRpdE1vZGFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/AboutUs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BYm91dFVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/AcademicCalendar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BY2FkZW1pY0NhbGVuZGFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/Admissions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BZG1pc3Npb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/ContactUs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Db250YWN0VXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/Facilities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9GYWNpbGl0aWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/Faq.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9GYXEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/Gallery.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9HYWxsZXJ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/News.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9OZXdzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Home/Privacy.cshtml]
@@ -202,6 +238,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFzdGVyU3ViZGlzdHJpY3RzL19FZGl0TW9kYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/MenuApps/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVudUFwcHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/MenuApps/_CreateModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVudUFwcHMvX0NyZWF0ZU1vZGFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/MenuApps/_EditModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVudUFwcHMvX0VkaXRNb2RhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Parents/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFyZW50cy9EZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -232,6 +280,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/PaymentTransaction/_EditModal.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGF5bWVudFRyYW5zYWN0aW9uL19FZGl0TW9kYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/RoleMenuAccess/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9sZU1lbnVBY2Nlc3MvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/Roles/Details.cshtml]
@@ -340,6 +392,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/StudentGrades/_EditModal.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3R1ZGVudEdyYWRlcy9fRWRpdE1vZGFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/StudentParents/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3R1ZGVudFBhcmVudHMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/Views/StudentRegistrations/Details.cshtml]

@@ -1,0 +1,143 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - PT. SFCore Indonesia</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/libs/fontawesome/css/all.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+        .menu a {
+            color: white;
+            text-decoration: none;
+        }
+        .login a {
+            color: white;
+            background-color: #007bff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .contact-hero {
+            background-color: #2c3e50;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .contact-info {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .info-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .contact-form {
+            margin-top: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="menu">
+            <li><a href="/Home/Index">Home</a></li>
+            <li><a href="/Home/AboutUs">About Us</a></li>
+            <li><a href="/Home/News">News</a></li>
+            <li><a href="/Home/Admissions">PPDB</a></li>
+            <li><a href="/Home/Facilities">Facilities</a></li>
+            <li><a href="/Home/Gallery">Gallery</a></li>
+            <li><a href="/Home/ContactUs">Contact Us</a></li>
+        </ul>
+        <div class="login">
+            <a href="/Auth/Login">Login</a>
+        </div>
+    </header>
+    <section class="contact-hero">
+        <h1>Get In Touch With Us</h1>
+        <p>We're here to help with any questions about our School Information System</p>
+    </section>
+    <div class="contact-info">
+        <div>
+            <div class="info-card">
+                <h2>Our Office</h2>
+                <p><i class="fas fa-map-marker-alt"></i> Jl. Sudirman No. 123, Jakarta Pusat, Indonesia 10220</p>
+                <p><i class="fas fa-phone"></i> +62 21 5555 7777</p>
+                <p><i class="fas fa-envelope"></i> info@sfcore.id</p>
+                <p><i class="fas fa-clock"></i> Mon-Fri: 8:00 AM - 5:00 PM</p>
+            </div>
+            <div class="info-card" style="margin-top: 1.5rem;">
+                <h2>Support Team</h2>
+                <p>For technical support and implementation:</p>
+                <p><i class="fas fa-envelope"></i> support@sfcore.id</p>
+                <p><i class="fas fa-phone"></i> +62 812 3456 7890 (WhatsApp)</p>
+            </div>
+        </div>
+        <div class="contact-form">
+            <div class="info-card">
+                <h2>Send Us a Message</h2>
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Subject">
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -52,7 +52,7 @@ namespace SiakWebApps.Controllers
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Dashboard");
                 }
 
                 ModelState.AddModelError("", "Invalid username or password.");

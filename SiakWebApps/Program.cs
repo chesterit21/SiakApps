@@ -45,6 +45,8 @@ builder.Services.AddSingleton(sp => new StudentParentRepository(connectionString
 builder.Services.AddSingleton(sp => new SchoolYearRepository(connectionString));
 builder.Services.AddSingleton(sp => new PaymentTransactionRepository(connectionString));
 builder.Services.AddSingleton(sp => new UserRoleRepository(connectionString));
+builder.Services.AddSingleton(sp => new MenuAppRepository(connectionString));
+builder.Services.AddSingleton(sp => new RoleMenuRepository(connectionString));
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<StudentService>();
@@ -72,6 +74,8 @@ builder.Services.AddScoped<StudentParentService>();
 builder.Services.AddScoped<SchoolYearService>();
 builder.Services.AddScoped<PaymentTransactionService>();
 builder.Services.AddScoped<UserRoleService>();
+builder.Services.AddScoped<MenuAppService>();
+builder.Services.AddScoped<RoleMenuService>();
 
 var app = builder.Build();
 

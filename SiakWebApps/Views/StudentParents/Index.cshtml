@@ -1,0 +1,240 @@
+@{
+    ViewData["Title"] = "Student-Parent Relationships";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">@ViewData["Title"]</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-primary" id="createNewBtn">
+                            <i class="fas fa-plus"></i> Create New
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="studentParentsTable" class="table table-bordered table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Parent Name</th>
+                                <th>Relationship</th>
+                                <th>Is Active</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="studentParentModal" tabindex="-1" role="dialog" aria-labelledby="studentParentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="studentParentModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="studentParentForm">
+                    <input type="hidden" id="originalSiswaId">
+                    <input type="hidden" id="originalOrangTuaId">
+                    
+                    <div class="form-group">
+                        <label for="siswaId">Student</label>
+                        <select class="form-control" id="siswaId" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="orangTuaId">Parent</label>
+                        <select class="form-control" id="orangTuaId" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hubungan">Relationship</label>
+                        <input type="text" class="form-control" id="hubungan" placeholder="e.g., Ayah, Ibu, Wali" required>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="isActive">
+                        <label class="form-check-label" for="isActive">Is Active</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveBtn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('#studentParentsTable').DataTable({
+                "processing": true,
+                "serverSide": false, // Set to false as we load all data at once
+                "ajax": {
+                    "url": "/StudentParents/GetAll",
+                    "type": "GET",
+                    "dataSrc": "data"
+                },
+                "columns": [
+                    { "data": "siswaId" }, // Placeholder, will be replaced
+                    { "data": "orangTuaId" }, // Placeholder, will be replaced
+                    { "data": "hubungan" },
+                    { 
+                        "data": "isActive",
+                        "render": function (data) {
+                            return data ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>';
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            return `<button class="btn btn-sm btn-info editBtn" data-siswaid="${row.siswaId}" data-orangtuaid="${row.orangTuaId}"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm btn-danger deleteBtn" data-siswaid="${row.siswaId}" data-orangtuaid="${row.orangTuaId}"><i class="fas fa-trash"></i></button>`;
+                        },
+                        "orderable": false
+                    }
+                ]
+            });
+
+            var students = {};
+            var parents = {};
+
+            // Fetch students and parents for dropdowns and name resolution
+            function loadDependencies() {
+                var studentsPromise = $.get("/StudentParents/GetStudents").done(function(data) {
+                    var studentOptions = '<option value="">-- Select Student --</option>';
+                    data.forEach(function(student) {
+                        students[student.id] = student.namaLengkap;
+                        studentOptions += `<option value="${student.id}">${student.namaLengkap} (NIS: ${student.nis})</option>`;
+                    });
+                    $('#siswaId').html(studentOptions);
+                });
+
+                var parentsPromise = $.get("/StudentParents/GetParents").done(function(data) {
+                    var parentOptions = '<option value="">-- Select Parent --</option>';
+                    data.forEach(function(parent) {
+                        parents[parent.id] = parent.namaLengkap;
+                        parentOptions += `<option value="${parent.id}">${parent.namaLengkap} (NIK: ${parent.nik})</option>`;
+                    });
+                    $('#orangTuaId').html(parentOptions);
+                });
+
+                // After both are loaded, redraw the table to show names
+                $.when(studentsPromise, parentsPromise).done(function() {
+                    table.column(0).data().each(function (value, index) {
+                        table.cell(index, 0).data(students[value] || 'N/A');
+                    }).draw();
+                    table.column(1).data().each(function (value, index) {
+                        table.cell(index, 1).data(parents[value] || 'N/A');
+                    }).draw();
+                });
+            }
+
+            loadDependencies();
+
+            // Handle Create New button
+            $('#createNewBtn').on('click', function() {
+                $('#studentParentForm')[0].reset();
+                $('#studentParentModalLabel').text('Create New Relationship');
+                $('#originalSiswaId').val('');
+                $('#originalOrangTuaId').val('');
+                $('#siswaId').prop('disabled', false);
+                $('#orangTuaId').prop('disabled', false);
+                $('#isActive').prop('checked', true);
+                $('#studentParentModal').modal('show');
+            });
+
+            // Handle Edit button
+            $('#studentParentsTable tbody').on('click', '.editBtn', function() {
+                var siswaId = $(this).data('siswaid');
+                var orangTuaId = $(this).data('orangtuaid');
+
+                $.get(`/StudentParents/GetById?siswaId=${siswaId}&orangTuaId=${orangTuaId}`, function(data) {
+                    $('#studentParentModalLabel').text('Edit Relationship');
+                    
+                    $('#originalSiswaId').val(data.siswaId);
+                    $('#originalOrangTuaId').val(data.orangTuaId);
+                    
+                    $('#siswaId').val(data.siswaId).prop('disabled', true);
+                    $('#orangTuaId').val(data.orangTuaId).prop('disabled', true);
+                    $('#hubungan').val(data.hubungan);
+                    $('#isActive').prop('checked', data.isActive);
+                    
+                    $('#studentParentModal').modal('show');
+                });
+            });
+
+            // Handle Save button in modal
+            $('#saveBtn').on('click', function() {
+                if (!$('#studentParentForm')[0].checkValidity()) {
+                    $('#studentParentForm')[0].reportValidity();
+                    return;
+                }
+
+                var originalSiswaId = $('#originalSiswaId').val();
+                var isUpdate = originalSiswaId ? true : false;
+                
+                var studentParent = {
+                    siswaId: parseInt($('#siswaId').val()),
+                    orangTuaId: parseInt($('#orangTuaId').val()),
+                    hubungan: $('#hubungan').val(),
+                    isActive: $('#isActive').is(':checked')
+                };
+
+                var url = isUpdate ? '/StudentParents/Update' : '/StudentParents/Create';
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(studentParent),
+                    success: function(response) {
+                        $('#studentParentModal').modal('hide');
+                        // alert(response.message); // Replace with a better notification if available
+                        table.ajax.reload(function() {
+                            loadDependencies(); // Re-run name replacement after reload
+                        }, false); // 'false' to maintain current paging
+                    },
+                    error: function(xhr) {
+                        var errorMsg = xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred.';
+                        alert('Error: ' + errorMsg);
+                    }
+                });
+            });
+
+            // Handle Delete button
+            $('#studentParentsTable tbody').on('click', '.deleteBtn', function() {
+                var siswaId = $(this).data('siswaid');
+                var orangTuaId = $(this).data('orangtuaid');
+
+                if (confirm('Are you sure you want to delete this record?')) {
+                     $.ajax({
+                        url: `/StudentParents/Delete?siswaId=${siswaId}&orangTuaId=${orangTuaId}`,
+                        type: 'POST',
+                        success: function(response) {
+                            // alert(response.message);
+                            table.ajax.reload(function() {
+                                loadDependencies(); // Re-run name replacement after reload
+                            }, false);
+                        },
+                        error: function(xhr) {
+                            var errorMsg = xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred.';
+                            alert('Error: ' + errorMsg);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

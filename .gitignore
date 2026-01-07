@@ -1,2 +1,63 @@
+## C#/.NET Core
+## Reference: https://github.com/github/gitignore/blob/main/community/DotNet/DotNet.gitignore
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio 2015 cache/options directory
+.vs/
+# Uncomment if you have tasks that create the project's static files in wwwroot
+#wwwroot/
+
+# Visual Studio 2017 auto-generated files
+Generated\_Themes/
+
+# Visual Studio Code files
+.vscode/
+
+# Rider files
+.idea/
+
+# Dotnet secret files
+secrets.json
+
+# Other
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.log
+*.scc
+
+# Environment files
+.env
+appsettings.Development.json
+appsettings.production.json
+
+# Local Libraries
+/SiakWebApps/wwwroot/libs/
+/wwwroot/libs/
+
+# Existing rules
 /.lingma
 /GEMINI.md

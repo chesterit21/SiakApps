@@ -441,3 +441,9 @@
 /home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/bin/Debug/net10.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll
 /home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/SiakWebApps.MvcApplicationPartsAssemblyInfo.cs
 /home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/muakb5eycc-{0}-p56kh0bfxa-p56kh0bfxa.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/SiakWebApps.sourcelink.json
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/bin/Debug/net10.0/appsettings.Production.json
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/4mdlqxvtmv-{0}-4bd7cmo02s-4bd7cmo02s.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/qmev0s522n-{0}-2e2x19jzrv-2e2x19jzrv.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/wg7ytkjrfo-{0}-quid682eea-quid682eea.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/byty5speu5-{0}-vm77v644vc-vm77v644vc.gz

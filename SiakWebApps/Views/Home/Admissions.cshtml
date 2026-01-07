@@ -1,0 +1,407 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Penerimaan Siswa Baru (PPDB) - SiakApps</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/libs/fontawesome/css/all.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --accent-color: #ffc107;
+            --success-color: #28a745;
+            --dark-bg: #343a40;
+            --light-bg: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .menu a:hover, .menu a.active {
+            color: white;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .login a {
+            color: white;
+            background-color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .login a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hero Section */
+        .ppdb-hero {
+            background: linear-gradient(rgba(0, 50, 100, 0.8), rgba(0, 50, 100, 0.8)), url('/assets/img/ppdb-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .ppdb-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            line-height: 1.2;
+        }
+
+        .ppdb-hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.4);
+            background-color: #e0a800;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+
+        /* Section Styles */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--dark-bg);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header .divider {
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Steps / Alur */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .step-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step-card i {
+            font-size: 2.5rem;
+            color: var(--dark-bg);
+            margin-bottom: 1rem;
+        }
+
+        .step-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Requirements & Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .info-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-content ul li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .info-content ul li i {
+            color: var(--success-color);
+            margin-top: 5px;
+        }
+
+        .info-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Scholarship Banner */
+        .scholarship-banner {
+            background: linear-gradient(45deg, var(--dark-bg), #2c3e50);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-top: 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .scholarship-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .scholarship-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @@media (max-width: 768px) {
+            .menu { display: none; }
+            header { justify-content: space-between; }
+            .ppdb-hero h1 { font-size: 2.5rem; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/Home/Index" class="brand">
+            <i class="fas fa-graduation-cap"></i> SIAK<span style="color:var(--primary-color)">APPS</span>
+        </a>
+        <ul class="menu">
+            <li><a href="/Home/Index">Home</a></li>
+            <li><a href="/Home/AboutUs">About Us</a></li>
+            <li><a href="/Home/News">News</a></li>
+            <li><a href="/Home/Admissions" class="active">PPDB</a></li>
+            <li><a href="/Home/Facilities">Facilities</a></li>
+            <li><a href="/Home/Gallery">Gallery</a></li>
+            <li><a href="/Home/ContactUs">Contact Us</a></li>
+        </ul>
+        <div class="login">
+            <a href="/Auth/Login">Login</a>
+        </div>
+    </header>
+
+    <section class="ppdb-hero">
+        <h1>Penerimaan Peserta Didik Baru<br>Tahun Ajaran 2026/2027</h1>
+        <p>Bergabunglah bersama kami untuk mewujudkan generasi yang cerdas, berkarakter, dan berprestasi.</p>
+        <a href="#daftar" class="cta-button">Daftar Sekarang <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <div class="container">
+        <div class="section-header">
+            <h2>Alur Pendaftaran</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <i class="fas fa-laptop-medical"></i>
+                <h3>Registrasi Online</h3>
+                <p>Isi formulir pendaftaran melalui website SiakApps dan lengkapi data diri awal.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <i class="fas fa-file-upload"></i>
+                <h3>Upload Berkas</h3>
+                <p>Unggah dokumen persyaratan seperti KK, Akta Kelahiran, dan Rapor terakhir.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <i class="fas fa-edit"></i>
+                <h3>Tes Seleksi</h3>
+                <p>Ikuti tes potensi akademik dan wawancara sesuai jadwal yang ditentukan.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <i class="fas fa-bullhorn"></i>
+                <h3>Pengumuman</h3>
+                <p>Hasil seleksi akan diumumkan melalui website dan email pendaftar.</p>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-image">
+                <img src="/assets/img/ppdb-requirements.jpg" alt="Siswa Belajar" onerror="this.src='https://placehold.co/600x400/007bff/ffffff?text=Persyaratan+Siswa'">
+            </div>
+            <div class="info-content">
+                <h2 style="margin-top: 0; color: var(--dark-bg);">Persyaratan Pendaftaran</h2>
+                <p>Pastikan Anda telah menyiapkan dokumen-dokumen berikut sebelum melakukan pendaftaran online:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Scan Akta Kelahiran Asli</li>
+                    <li><i class="fas fa-check-circle"></i> Scan Kartu Keluarga (KK) Terbaru</li>
+                    <li><i class="fas fa-check-circle"></i> Pas Foto Berwarna ukuran 3x4 (Latar Merah/Biru)</li>
+                    <li><i class="fas fa-check-circle"></i> Scan Rapor 2 Semester Terakhir (Legalisir)</li>
+                    <li><i class="fas fa-check-circle"></i> Surat Keterangan Sehat dari Dokter</li>
+                    <li><i class="fas fa-check-circle"></i> Sertifikat Prestasi (Jika ada, untuk jalur prestasi)</li>
+                </ul>
+                <a href="#" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Download Brosur Lengkap <i class="fas fa-download"></i></a>
+            </div>
+        </div>
+
+        <div class="scholarship-banner">
+            <div class="scholarship-content">
+                <h3>Program Beasiswa</h3>
+                <p>Kami menyediakan berbagai program beasiswa bagi siswa berprestasi akademik, non-akademik, dan siswa dari keluarga kurang mampu (KIP/Yayasan).</p>
+            </div>
+            <div>
+                <a href="/Home/ContactUs" class="cta-button" style="background: white; color: var(--dark-bg);">Info Lebih Lanjut</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <h3>SiakApps School System</h3>
+            <p>Membangun Generasi Cerdas dan Berkarakter.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: #aaa;">&copy; 2026 SiakApps. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
