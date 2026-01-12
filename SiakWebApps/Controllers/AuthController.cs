@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace SiakWebApps.Controllers
 {
-    [MenuAuthorize("UMMSTRDATA")]
+    [AllowAnonymous]
     public class AuthController : Controller
     {
         private readonly UserService _userService;
