@@ -56,7 +56,7 @@ namespace SiakWebApps.Controllers
                 {
                     // Get user role
                     var userRole = await _userRoleService.GetRoleByUserIdAsync(user.Id);
-                    var roleId = userRole?.RoleId ?? 0; // Default to 0 if no role
+                    var roleId = userRole?.Role.Id ?? 0; // Default to 0 if no role
                     var roleName = userRole?.Role?.Name ?? "Guest";
 
                     var claims = new List<Claim>

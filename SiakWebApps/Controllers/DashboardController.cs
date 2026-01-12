@@ -7,7 +7,6 @@ namespace SiakWebApps.Controllers;
 
 
 [MenuAuthorize("DASHBOARD")]
-
 public class DashboardController : BaseController
 {
     [MenuActionAuthorize("VIEW")]

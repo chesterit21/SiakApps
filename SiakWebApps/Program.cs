@@ -80,9 +80,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.SecurePolicy = CookieSecurePolicy.None;
     options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 
 // Register data access and services
@@ -178,10 +178,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-app.UseAuthentication(); // Add authentication middleware
+app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseSession(); // Enable session middleware
 
 // Health check endpoint for Docker
 app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow }));

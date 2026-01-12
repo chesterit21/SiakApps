@@ -24,7 +24,7 @@ namespace SiakWebApps.Filters
             // Jika tidak ada UserMenu di session, redirect ke Dashboard
             if (string.IsNullOrEmpty(userMenuJson))
             {
-                context.Result = new RedirectToActionResult("Index", "Dashboard", null);
+                context.Result = new RedirectToActionResult("Logout", "Auth", null);
                 return;
             }
 

@@ -13,5 +13,9 @@ namespace SiakWebApps.Models
         public bool IsAdd { get; set; }
         public bool IsEdit { get; set; }
         public bool IsDelete { get; set; }
+        public bool IsDownload { get; set; }
+        public bool IsUpload { get; set; }
+        public bool IsPrint { get; set; }
+        public bool IsApprove { get; set; }
     }
 }

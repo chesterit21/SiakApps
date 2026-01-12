@@ -73,7 +73,8 @@ namespace SiakWebApps.DataAccess
             var sql = @"
                 SELECT m.id, m.menuname AS MenuName, m.unique_code AS UniqueCode, m.menu_url AS MenuUrl, 
                        m.parent_menu_id AS ParentMenuId, m.is_parent AS IsParent, m.level_parent AS LevelParent,
-                       rm.is_view AS IsView, rm.is_add AS IsAdd, rm.is_edit AS IsEdit, rm.is_delete AS IsDelete
+                       rm.isview AS IsView, rm.isadd AS IsAdd, rm.isedit AS IsEdit, rm.isdelete AS IsDelete,rm.isupload As IsUpload
+                       ,rm.isapprove AS IsApprove, rm.isdownload AS IsDownload, rm.isprint AS IsPrint
                 FROM menuapp m
                 JOIN role_menu rm ON m.id = rm.menu_id
                 WHERE rm.role_id = @RoleId
