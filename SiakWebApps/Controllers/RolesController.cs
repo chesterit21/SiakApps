@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
-    public class RolesController : Controller
+    [MenuAuthorize("SYS-ROLE")]
+
+    public class RolesController : BaseController
     {
         private readonly RoleService _roleService;
 
@@ -13,12 +17,14 @@ namespace SiakWebApps.Controllers
             _roleService = roleService;
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var roles = await _roleService.GetAllAsync();
             return View(roles);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int id)
         {
             var role = await _roleService.GetByIdAsync(id);
@@ -26,6 +32,7 @@ namespace SiakWebApps.Controllers
             return PartialView("Details", role);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public IActionResult Create()
         {
             return PartialView("_CreateModal");
@@ -33,6 +40,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("Name,Description")] Role role)
         {
             if (ModelState.IsValid)
@@ -43,6 +51,7 @@ namespace SiakWebApps.Controllers
             return PartialView("_CreateModal", role);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Edit(int id)
         {
             var role = await _roleService.GetByIdAsync(id);
@@ -52,6 +61,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CreatedAt")] Role role)
         {
             if (id != role.Id) return NotFound();
@@ -65,6 +75,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _roleService.DeleteAsync(id);

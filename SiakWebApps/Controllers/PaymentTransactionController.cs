@@ -1,11 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
-    public class PaymentTransactionController : Controller
+    [MenuAuthorize("FIN-TRANS")]
+
+    public class PaymentTransactionController : BaseController
     {
         private readonly PaymentTransactionService _transactionService;
         private readonly StudentService _studentService;
@@ -24,12 +29,14 @@ namespace SiakWebApps.Controllers
             _semesterService = semesterService;
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var transactions = await _transactionService.GetAllAsync();
             return View(transactions);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -49,6 +56,7 @@ namespace SiakWebApps.Controllers
             ViewBag.SemesterId = new SelectList(semesters, "Id", "Nama", transaction?.SemesterId);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Create()
         {
             await PrepareDropdowns();
@@ -57,6 +65,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("SiswaId,TahunAjaranId,SemesterId,JenisPembayaran,Jumlah,TanggalPembayaran,BuktiPembayaran,Status")] PaymentTransaction transaction)
         {
             if (ModelState.IsValid)
@@ -69,6 +78,7 @@ namespace SiakWebApps.Controllers
             return PartialView("_CreateModal", transaction);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -80,6 +90,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,SiswaId,TahunAjaranId,SemesterId,JenisPembayaran,Jumlah,TanggalPembayaran,BuktiPembayaran,Status,CreatedBy,CreatedAt")] PaymentTransaction transaction)
         {
             if (id != transaction.Id) return NotFound();
@@ -94,6 +105,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _transactionService.DeleteAsync(id);

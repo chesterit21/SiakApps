@@ -36,5 +36,10 @@ namespace SiakWebApps.Services
         {
             return await _repository.DeleteAsync(id);
         }
+
+        public async Task<IEnumerable<MasterDistrict>> GetByCityIdAsync(int cityId)
+        {
+            return await _repository.GetByCityIdAsync(cityId);
+        }
     }
 }

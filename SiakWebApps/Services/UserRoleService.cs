@@ -41,5 +41,10 @@ namespace SiakWebApps.Services
         {
             return await _userRoleRepository.DeleteByRoleIdAsync(roleId);
         }
+
+        public async Task<UserRole?> GetRoleByUserIdAsync(long userId)
+        {
+            return await _userRoleRepository.GetWithRoleByUserIdAsync(userId);
+        }
     }
 }

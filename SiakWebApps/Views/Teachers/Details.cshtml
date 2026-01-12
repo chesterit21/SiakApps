@@ -1,5 +1,9 @@
 @model SiakWebApps.Models.Teacher
 
+@{
+    Layout = null;
+}
+
 <div class="row">
     <div class="col-md-4 text-center mb-3">
         @if (!string.IsNullOrEmpty(Model.FotoProfile))
@@ -53,5 +57,5 @@
     </div>
 </div>
 <div class="modal-footer px-0 pb-0 mt-3">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 </div>

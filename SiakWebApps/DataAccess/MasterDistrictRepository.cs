@@ -14,7 +14,10 @@ namespace SiakWebApps.DataAccess
         {
             using var connection = CreateConnection();
             return await connection.QueryAsync<MasterDistrict>(
-                "SELECT id, kota_id, nama, created_at, updated_at FROM master_kecamatan");
+                @"SELECT d.id, d.kota_id as ""KotaId"", d.nama, c.nama as ""CityName"", p.nama as ""ProvinceName"", d.created_at as ""CreatedAt"", d.updated_at as ""UpdatedAt""
+                  FROM master_kecamatan d
+                  JOIN master_kota c ON d.kota_id = c.id
+                  JOIN master_provinsi p ON c.provinsi_id = p.id");
         }
 
         public async Task<MasterDistrict?> GetByIdAsync(int id)
@@ -58,6 +61,14 @@ namespace SiakWebApps.DataAccess
 
             var affectedRows = await connection.ExecuteAsync(sql, new { Id = id });
             return affectedRows > 0;
+        }
+
+        public async Task<IEnumerable<MasterDistrict>> GetByCityIdAsync(int cityId)
+        {
+            using var connection = CreateConnection();
+            return await connection.QueryAsync<MasterDistrict>(
+                "SELECT id, kota_id, nama FROM master_kecamatan WHERE kota_id = @CityId",
+                new { CityId = cityId });
         }
     }
 }

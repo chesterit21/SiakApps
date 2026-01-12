@@ -66,5 +66,10 @@ namespace SiakWebApps.Services
         {
             return await _menuAppRepository.GetParentMenusAsync();
         }
+
+        public async Task<IEnumerable<MenuPermissionDto>> GetByRoleIdAsync(int roleId)
+        {
+            return await _menuAppRepository.GetByRoleIdAsync(roleId);
+        }
     }
 }

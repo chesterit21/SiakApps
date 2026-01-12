@@ -4,6 +4,7 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
+    [MenuAuthorize("MSTR-ACADEMICYEAR")]
     public class AcademicYearsController : BaseController
     {
         private readonly AcademicYearService _academicYearService;
@@ -14,6 +15,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: AcademicYears
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var academicYears = await _academicYearService.GetAllAcademicYearsAsync();
@@ -21,6 +23,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: AcademicYears/Details/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int id)
         {
             var academicYear = await _academicYearService.GetAcademicYearByIdAsync(id);
@@ -32,6 +35,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: AcademicYears/Create
+        [MenuActionAuthorize("ADD")]
         public IActionResult Create()
         {
             return PartialView("_CreateModal");
@@ -40,6 +44,7 @@ namespace SiakWebApps.Controllers
         // POST: AcademicYears/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("Nama,TahunMulai,TahunSelesai,IsActive,CreatedAt,UpdatedAt")] AcademicYear academicYear)
         {
             if (ModelState.IsValid)
@@ -56,6 +61,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: AcademicYears/Edit/5
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id)
         {
             var academicYear = await _academicYearService.GetAcademicYearByIdAsync(id);
@@ -69,6 +75,7 @@ namespace SiakWebApps.Controllers
         // POST: AcademicYears/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nama,TahunMulai,TahunSelesai,IsActive,CreatedAt,UpdatedAt")] AcademicYear academicYear)
         {
             if (id != academicYear.Id)
@@ -92,6 +99,7 @@ namespace SiakWebApps.Controllers
         // POST: AcademicYears/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> Delete(int id)
         {
             // Karena tidak ada metode Delete di service, kita lewati dulu

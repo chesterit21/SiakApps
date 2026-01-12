@@ -1,16 +1,19 @@
 using SiakWebApps.DataAccess;
 using SiakWebApps.Models;
 using BCrypt.Net;
+using Microsoft.Extensions.Logging;
 
 namespace SiakWebApps.Services
 {
     public class UserService
     {
         private readonly UserRepository _userRepository;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(UserRepository userRepository)
+        public UserService(UserRepository userRepository, ILogger<UserService> logger)
         {
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
@@ -53,18 +56,35 @@ namespace SiakWebApps.Services
         // Membuat user awal jika belum ada user dalam sistem
         public async Task CreateInitialUserAsync()
         {
-            var users = await GetAllUsersAsync();
-            if (!users.Any())
+            const string initialUsername = "admin_akademik";
+            const string initialPassword = "password123";
+
+            var existingUser = await _userRepository.GetUserByUsernameAsync(initialUsername);
+            if (existingUser != null) return;
+
+            // Ensure bcrypt hash is properly formatted (60 chars)
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(initialPassword);
+            if (hashedPassword.Length != 60)
             {
-                var adminUser = new User
-                {
-                    Username = "admin",
-                    Email = "admin@example.com",
-                    Password = "admin123", // Ini akan di-hash saat disimpan
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
-                };
-                await CreateUserAsync(adminUser);
+                throw new InvalidOperationException("Invalid bcrypt hash length. Expected 60 characters.");
+            }
+
+            var user = new User
+            {
+                Username = initialUsername,
+                Password = hashedPassword,
+                Email = "admin@sekolah.edu",
+                CreatedAt = DateTime.UtcNow
+            };
+
+            try
+            {
+                await _userRepository.CreateUserAsync(user);
+            }
+            catch (Exception ex) when (ex.Message.Contains("duplicate") || ex.Message.Contains("unique"))
+            {
+                // Abaikan error duplikat karena user sudah ada
+                _logger.LogWarning("User {Username} sudah ada di database.", initialUsername);
             }
         }
     }

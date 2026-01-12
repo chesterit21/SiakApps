@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
-    public class MasterGendersController : Controller
+    [MenuAuthorize("MSTR-GENDER")]
+    public class MasterGendersController : BaseController
     {
         private readonly MasterGenderService _masterGenderService;
 
@@ -14,6 +19,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterGenders
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var genders = await _masterGenderService.GetAllAsync();
@@ -21,6 +27,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterGenders/Details/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int id)
         {
             var gender = await _masterGenderService.GetByIdAsync(id);
@@ -32,6 +39,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterGenders/Create
+        [MenuActionAuthorize("VIEW")]
         public IActionResult Create()
         {
             return PartialView("_CreateModal");
@@ -40,6 +48,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterGenders/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("Nama")] MasterGender gender)
         {
             if (ModelState.IsValid)
@@ -56,6 +65,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterGenders/Edit/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Edit(int id)
         {
             var gender = await _masterGenderService.GetByIdAsync(id);
@@ -69,6 +79,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterGenders/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nama,CreatedAt,UpdatedAt")] MasterGender gender)
         {
             if (id != gender.Id)
@@ -92,6 +103,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterGenders/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _masterGenderService.DeleteAsync(id);

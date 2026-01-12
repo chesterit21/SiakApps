@@ -5,7 +5,8 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    public class StudentRegistrationsController : Controller
+    [MenuAuthorize("STU-REG")]
+    public class StudentRegistrationsController : BaseController
     {
         private readonly StudentRegistrationService _registrationService;
         private readonly AcademicYearService _academicYearService;

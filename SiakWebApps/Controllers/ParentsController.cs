@@ -1,10 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
-    public class ParentsController : Controller
+    [MenuAuthorize("MSTR-PARENT")]
+
+    public class ParentsController : BaseController
     {
         private readonly ParentService _parentService;
 
@@ -14,6 +20,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: Parents
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var parents = await _parentService.GetAllAsync();
@@ -21,6 +28,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: Parents/Details/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int id)
         {
             var parent = await _parentService.GetByIdAsync(id);
@@ -32,6 +40,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: Parents/Create
+        [MenuActionAuthorize("VIEW")]
         public IActionResult Create()
         {
             return PartialView("_CreateModal");
@@ -40,6 +49,7 @@ namespace SiakWebApps.Controllers
         // POST: Parents/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("UserId,Nik,NamaLengkap,JenisKelaminId,TempatLahir,TanggalLahir,Agama,Phone,Email,Pekerjaan,PenghasilanPerBulan,AlamatId")] Parent parent)
         {
             if (ModelState.IsValid)
@@ -56,6 +66,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: Parents/Edit/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Edit(int id)
         {
             var parent = await _parentService.GetByIdAsync(id);
@@ -69,6 +80,7 @@ namespace SiakWebApps.Controllers
         // POST: Parents/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Nik,NamaLengkap,JenisKelaminId,TempatLahir,TanggalLahir,Agama,Phone,Email,Pekerjaan,PenghasilanPerBulan,AlamatId,CreatedAt,UpdatedAt,DeletedAt")] Parent parent)
         {
             if (id != parent.Id)
@@ -92,6 +104,7 @@ namespace SiakWebApps.Controllers
         // POST: Parents/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _parentService.DeleteAsync(id);

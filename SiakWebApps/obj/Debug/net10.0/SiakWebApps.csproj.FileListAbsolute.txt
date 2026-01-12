@@ -447,3 +447,15 @@
 /home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/qmev0s522n-{0}-2e2x19jzrv-2e2x19jzrv.gz
 /home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/wg7ytkjrfo-{0}-quid682eea-quid682eea.gz
 /home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/byty5speu5-{0}-vm77v644vc-vm77v644vc.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/e6w6h5e9nc-{0}-lw1nthmmzs-lw1nthmmzs.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/3kkasddgwr-{0}-exjmz5oq9i-exjmz5oq9i.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/y472gapw98-{0}-rv2h4lc5lv-rv2h4lc5lv.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/l5vw1ktkap-{0}-6v90xe4283-6v90xe4283.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/xd9rvgt12y-{0}-94wvfblwr1-94wvfblwr1.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/s28pk8uc8h-{0}-su86i19dm2-su86i19dm2.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/1ept4hp2eh-{0}-3f8xgumknt-3f8xgumknt.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/obj/Debug/net10.0/compressed/qdh8w8qpp5-{0}-x6ecn21ljj-x6ecn21ljj.gz
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/bin/Debug/net10.0/Microsoft.OpenApi.dll
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/bin/Debug/net10.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/sfcore/SFCoreApps/DummyApps/SiakApps/SiakWebApps/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll

@@ -5,7 +5,8 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    public class StudentGradesController : Controller
+    [MenuAuthorize("ACD-GRADE")]
+    public class StudentGradesController : BaseController
     {
         private readonly StudentGradeService _studentGradeService;
         private readonly StudentService _studentService;

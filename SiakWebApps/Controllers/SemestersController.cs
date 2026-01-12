@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
-    public class SemestersController : Controller
+    [MenuAuthorize("MSTR-SEMESTER")]
+    public class SemestersController : BaseController
     {
         private readonly SemesterService _semesterService;
         private readonly AcademicYearService _academicYearService;
@@ -16,12 +19,14 @@ namespace SiakWebApps.Controllers
             _academicYearService = academicYearService;
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var semesters = await _semesterService.GetAllSemestersAsync();
             return View(semesters);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -30,6 +35,7 @@ namespace SiakWebApps.Controllers
             return PartialView("Details", semester);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Create()
         {
             var academicYears = await _academicYearService.GetAllAcademicYearsAsync();
@@ -39,6 +45,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("TahunAjaranId,Nama,SemesterKe,TanggalMulai,TanggalSelesai,IsActive")] Semester semester)
         {
             if (ModelState.IsValid)
@@ -51,6 +58,7 @@ namespace SiakWebApps.Controllers
             return PartialView("_CreateModal", semester);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -64,6 +72,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,TahunAjaranId,Nama,SemesterKe,TanggalMulai,TanggalSelesai,IsActive,CreatedAt")] Semester semester)
         {
             if (id != semester.Id) return NotFound();
@@ -79,6 +88,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _semesterService.DeleteAsync(id);

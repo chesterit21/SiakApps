@@ -4,6 +4,7 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
+    [MenuAuthorize("MSTR-CLASS")]
     public class ClassesController : BaseController
     {
         private readonly ClassService _classService;
@@ -14,6 +15,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: Classes
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var classes = await _classService.GetAllClassesAsync();
@@ -21,6 +23,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: Classes/Details/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int id)
         {
             var classModel = await _classService.GetClassByIdAsync(id);
@@ -32,6 +35,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: Classes/Create
+        [MenuActionAuthorize("ADD")]
         public IActionResult Create()
         {
             return PartialView("_CreateModal");
@@ -40,6 +44,7 @@ namespace SiakWebApps.Controllers
         // POST: Classes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("Nama,Tingkat,TahunAjaranId,WaliKelasId,Kapasitas,CreatedAt,UpdatedAt")] Class classModel)
         {
             if (ModelState.IsValid)
@@ -69,6 +74,7 @@ namespace SiakWebApps.Controllers
         // POST: Classes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nama,Tingkat,TahunAjaranId,WaliKelasId,Kapasitas,CreatedAt,UpdatedAt")] Class classModel)
         {
             if (id != classModel.Id)
@@ -92,6 +98,7 @@ namespace SiakWebApps.Controllers
         // POST: Classes/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> Delete(int id)
         {
             // Karena tidak ada metode Delete di service, kita lewati dulu

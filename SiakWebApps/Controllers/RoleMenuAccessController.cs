@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
+    [MenuAuthorize("SYS-ROLEACCESS")]
     public class RoleMenuAccessController : BaseController
     {
         private readonly RoleMenuService _roleMenuService;
@@ -17,12 +20,14 @@ namespace SiakWebApps.Controllers
             _menuAppService = menuAppService;
         }
 
+        [MenuActionAuthorize("VIEW")]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> GetRoles()
         {
             var roles = await _roleMenuService.GetAllRolesAsync();
@@ -30,6 +35,7 @@ namespace SiakWebApps.Controllers
         }
 
         [HttpGet]
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> GetMenusByRole(int roleId)
         {
             var menus = await _menuAppService.GetAllAsync();
@@ -59,6 +65,7 @@ namespace SiakWebApps.Controllers
         }
 
         [HttpPost]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> SaveRoleMenus([FromBody] SaveRoleMenusViewModel model)
         {
             if (model == null || model.Menus == null)

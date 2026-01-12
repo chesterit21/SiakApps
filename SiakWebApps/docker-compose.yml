@@ -1,0 +1,31 @@
+services:
+  # SIAK Web Application
+  siak_web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: siak_web
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - TZ=Asia/Jakarta
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - DOTNET_VERSION=10.0
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=postgres_db;Port=5432;Database=sfcore_siak;Username=postgres;Password=Password_Gua123!;
+      - ASPNETCORE_DATAPROTECTION_KEYS=/app/data-protection-keys
+    ports:
+      - "8155:8080"
+    networks:
+      - siak_network
+    volumes:
+      - dataprotection-keys:/app/data-protection-keys
+
+volumes:
+  dataprotection-keys:
+
+networks:
+  siak_network:
+    external: true
+    name: siak_network

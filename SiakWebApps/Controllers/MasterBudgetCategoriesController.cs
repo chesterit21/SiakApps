@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    public class MasterBudgetCategoriesController : Controller
+    [MenuAuthorize("MSTR-BUDGETCAT")]
+   public class MasterBudgetCategoriesController : BaseController
     {
         private readonly MasterBudgetCategoryService _masterBudgetCategoryService;
 
@@ -14,6 +16,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterBudgetCategories
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var categories = await _masterBudgetCategoryService.GetAllAsync();
@@ -21,6 +24,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterBudgetCategories/Details/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int id)
         {
             var category = await _masterBudgetCategoryService.GetByIdAsync(id);
@@ -32,6 +36,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterBudgetCategories/Create
+        [MenuActionAuthorize("VIEW")]
         public IActionResult Create()
         {
             return PartialView("_CreateModal");
@@ -40,6 +45,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterBudgetCategories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("Nama")] MasterBudgetCategory category)
         {
             if (ModelState.IsValid)
@@ -56,6 +62,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterBudgetCategories/Edit/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _masterBudgetCategoryService.GetByIdAsync(id);
@@ -69,6 +76,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterBudgetCategories/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nama,CreatedAt,UpdatedAt")] MasterBudgetCategory category)
         {
             if (id != category.Id)
@@ -92,6 +100,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterBudgetCategories/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _masterBudgetCategoryService.DeleteAsync(id);

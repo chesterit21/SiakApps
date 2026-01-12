@@ -1,26 +1,48 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
-    public class MasterDistrictsController : Controller
+    [MenuAuthorize("MSTR-DISTRICT")]
+
+    public class MasterDistrictsController : BaseController
     {
         private readonly MasterDistrictService _masterDistrictService;
+        private readonly MasterCityService _masterCityService;
+        private readonly MasterProvinceService _masterProvinceService;
 
-        public MasterDistrictsController(MasterDistrictService masterDistrictService)
+        public MasterDistrictsController(MasterDistrictService masterDistrictService, MasterCityService masterCityService, MasterProvinceService masterProvinceService)
         {
             _masterDistrictService = masterDistrictService;
+            _masterCityService = masterCityService;
+            _masterProvinceService = masterProvinceService;
         }
 
         // GET: MasterDistricts
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var districts = await _masterDistrictService.GetAllAsync();
             return View(districts);
         }
 
+        // GET: /MasterDistricts/GetCitiesByProvince/5
+        [HttpGet]
+        [MenuActionAuthorize("VIEW")]
+        public async Task<JsonResult> GetCitiesByProvince(int id)
+        {
+            var cities = await _masterCityService.GetByProvinceIdAsync(id);
+            return Json(new SelectList(cities, "Id", "Nama"));
+        }
+
         // GET: MasterDistricts/Details/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int id)
         {
             var district = await _masterDistrictService.GetByIdAsync(id);
@@ -32,14 +54,18 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterDistricts/Create
-        public IActionResult Create()
+        [MenuActionAuthorize("VIEW")]
+        public async Task<IActionResult> Create()
         {
+            var provinces = await _masterProvinceService.GetAllAsync();
+            ViewData["Provinces"] = new SelectList(provinces, "Id", "Nama");
             return PartialView("_CreateModal");
         }
 
         // POST: MasterDistricts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("KotaId,Nama")] MasterDistrict district)
         {
             if (ModelState.IsValid)
@@ -56,6 +82,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterDistricts/Edit/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Edit(int id)
         {
             var district = await _masterDistrictService.GetByIdAsync(id);
@@ -63,12 +90,23 @@ namespace SiakWebApps.Controllers
             {
                 return NotFound();
             }
+            
+            var city = await _masterCityService.GetByIdAsync(district.KotaId);
+            var provinceId = city?.ProvinsiId ?? 0;
+
+            var provinces = await _masterProvinceService.GetAllAsync();
+            var cities = await _masterCityService.GetByProvinceIdAsync(provinceId);
+
+            ViewData["Provinces"] = new SelectList(provinces, "Id", "Nama", provinceId);
+            ViewData["Cities"] = new SelectList(cities, "Id", "Nama", district.KotaId);
+
             return PartialView("_EditModal", district);
         }
 
         // POST: MasterDistricts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,KotaId,Nama,CreatedAt,UpdatedAt")] MasterDistrict district)
         {
             if (id != district.Id)
@@ -92,6 +130,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterDistricts/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _masterDistrictService.DeleteAsync(id);

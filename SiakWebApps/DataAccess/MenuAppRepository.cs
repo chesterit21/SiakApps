@@ -66,5 +66,19 @@ namespace SiakWebApps.DataAccess
             return await connection.QueryAsync<MenuApp>(
                 "SELECT id, menuname AS MenuName, unique_code AS UniqueCode, menu_url AS MenuUrl, parent_menu_id AS ParentMenuId, is_parent AS IsParent, level_parent AS LevelParent FROM menuapp ORDER BY level_parent, menuname");
         }
+
+        public async Task<IEnumerable<MenuPermissionDto>> GetByRoleIdAsync(int roleId)
+        {
+            using var connection = CreateConnection();
+            var sql = @"
+                SELECT m.id, m.menuname AS MenuName, m.unique_code AS UniqueCode, m.menu_url AS MenuUrl, 
+                       m.parent_menu_id AS ParentMenuId, m.is_parent AS IsParent, m.level_parent AS LevelParent,
+                       rm.is_view AS IsView, rm.is_add AS IsAdd, rm.is_edit AS IsEdit, rm.is_delete AS IsDelete
+                FROM menuapp m
+                JOIN role_menu rm ON m.id = rm.menu_id
+                WHERE rm.role_id = @RoleId
+                ORDER BY m.level_parent, m.id";
+            return await connection.QueryAsync<MenuPermissionDto>(sql, new { RoleId = roleId });
+        }
     }
 }

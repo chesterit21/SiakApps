@@ -1,9 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
+    [MenuAuthorize("SYS-MENU")]
+
     public class MenuAppsController : BaseController
     {
         private readonly MenuAppService _menuAppService;
@@ -13,6 +18,7 @@ namespace SiakWebApps.Controllers
             _menuAppService = menuAppService;
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var menuApps = await _menuAppService.GetAllAsync();
@@ -20,13 +26,15 @@ namespace SiakWebApps.Controllers
         }
 
         [HttpGet]
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> GetMenuApps()
         {
             var menuApps = await _menuAppService.GetAllAsync();
-            return Json(new { data = menuApps });
+            return Json(new { data = menuApps ?? new List<MenuApp>() });
         }
 
         [HttpGet]
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> GetParentMenus()
         {
             var parentMenus = await _menuAppService.GetParentMenusAsync();
@@ -34,6 +42,7 @@ namespace SiakWebApps.Controllers
         }
 
         [HttpGet]
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> GetById(int id)
         {
             var menuApp = await _menuAppService.GetByIdAsync(id);
@@ -45,6 +54,7 @@ namespace SiakWebApps.Controllers
         }
 
         [HttpPost]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create(MenuApp menuApp)
         {
             try
@@ -56,13 +66,14 @@ namespace SiakWebApps.Controllers
                 }
                 return Json(new { success = false, message = "Invalid data", errors = ModelState });
             }
-            catch (InvalidOperationException ex)
+            catch (System.InvalidOperationException ex)
             {
                 return Json(new { success = false, message = ex.Message });
             }
         }
 
         [HttpPost]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(MenuApp menuApp)
         {
             try
@@ -77,13 +88,14 @@ namespace SiakWebApps.Controllers
                 }
                 return Json(new { success = false, message = "Invalid data", errors = ModelState });
             }
-            catch (InvalidOperationException ex)
+            catch (System.InvalidOperationException ex)
             {
                 return Json(new { success = false, message = ex.Message });
             }
         }
 
         [HttpDelete]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _menuAppService.DeleteAsync(id);

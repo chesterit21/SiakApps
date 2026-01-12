@@ -4,7 +4,9 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    public class StudentClassesController : Controller
+    [MenuAuthorize("ACD-STUDENTCLASS")]
+
+    public class StudentClassesController : BaseController
     {
         private readonly StudentClassService _studentClassService;
 

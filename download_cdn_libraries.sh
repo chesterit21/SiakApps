@@ -26,6 +26,28 @@ wget -O wwwroot/libs/datatables/js/dataTables.min.js \
 wget -O wwwroot/libs/datatables/js/dataTables.bootstrap5.min.js \
   https://cdn.datatables.net/2.3.5/js/dataTables.bootstrap5.min.js
 
+echo "Mengunduh DataTables Buttons & Dependencies (Excel, PDF)..."
+
+# JSZip (Excel) & PDFMake (PDF)
+wget -O wwwroot/libs/datatables/js/jszip.min.js \
+  https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js
+wget -O wwwroot/libs/datatables/js/pdfmake.min.js \
+  https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js
+wget -O wwwroot/libs/datatables/js/vfs_fonts.js \
+  https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js
+
+# Buttons Core & Extensions
+wget -O wwwroot/libs/datatables/js/dataTables.buttons.min.js \
+  https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js
+wget -O wwwroot/libs/datatables/js/buttons.html5.min.js \
+  https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js
+wget -O wwwroot/libs/datatables/js/buttons.print.min.js \
+  https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js
+wget -O wwwroot/libs/datatables/js/buttons.bootstrap5.min.js \
+  https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js
+wget -O wwwroot/libs/datatables/css/buttons.bootstrap5.min.css \
+  https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css
+
 echo "Mengunduh Font Awesome..."
 
 # Font Awesome CSS
@@ -58,6 +80,9 @@ echo "  <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/f
 echo "  menjadi:"
 echo "  <link rel=\"stylesheet\" href=\"~/libs/fontawesome/css/all.min.css\" />"
 echo ""
+echo "  Dan tambahkan CSS Buttons:"
+echo "  <link rel=\"stylesheet\" href=\"~/libs/datatables/css/buttons.bootstrap5.min.css\" />"
+echo ""
 echo "3. Ganti:"
 echo "  <script src=\"https://cdn.datatables.net/2.3.5/js/dataTables.min.js\"></script>"
 echo "  menjadi:"
@@ -67,6 +92,15 @@ echo "4. Ganti:"
 echo "  <script src=\"https://cdn.datatables.net/2.3.5/js/dataTables.bootstrap5.min.js\"></script>"
 echo "  menjadi:"
 echo "  <script src=\"~/libs/datatables/js/dataTables.bootstrap5.min.js\"></script>"
+echo ""
+echo "  Dan tambahkan JS Buttons (urutan penting):"
+echo "  <script src=\"~/libs/datatables/js/dataTables.buttons.min.js\"></script>"
+echo "  <script src=\"~/libs/datatables/js/jszip.min.js\"></script>"
+echo "  <script src=\"~/libs/datatables/js/pdfmake.min.js\"></script>"
+echo "  <script src=\"~/libs/datatables/js/vfs_fonts.js\"></script>"
+echo "  <script src=\"~/libs/datatables/js/buttons.html5.min.js\"></script>"
+echo "  <script src=\"~/libs/datatables/js/buttons.print.min.js\"></script>"
+echo "  <script src=\"~/libs/datatables/js/buttons.bootstrap5.min.js\"></script>"
 echo ""
 
 echo "Proses selesai! Semua library CDN telah diunduh ke folder lokal."

@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
-    public class RoomsController : Controller
+    [MenuAuthorize("MSTR-ROOM")]
+
+    public class RoomsController : BaseController
     {
         private readonly RoomService _roomService;
 
@@ -13,12 +17,14 @@ namespace SiakWebApps.Controllers
             _roomService = roomService;
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var rooms = await _roomService.GetAllAsync();
             return View(rooms);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -27,6 +33,7 @@ namespace SiakWebApps.Controllers
             return PartialView("Details", room);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public IActionResult Create()
         {
             return PartialView("_CreateModal");
@@ -34,6 +41,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("Nama,Kapasitas,Lokasi,TipeRuangan")] Room room)
         {
             if (ModelState.IsValid)
@@ -44,6 +52,7 @@ namespace SiakWebApps.Controllers
             return PartialView("_CreateModal", room);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -54,6 +63,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nama,Kapasitas,Lokasi,TipeRuangan,CreatedAt")] Room room)
         {
             if (id != room.Id) return NotFound();
@@ -67,6 +77,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _roomService.DeleteAsync(id);

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SiakWebApps")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f9b659cbf97536e37ecb6fed8183bfd55d578bfb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b7dcd1604b7a182f8fc67e87162350abebc085c")]
 [assembly: System.Reflection.AssemblyProductAttribute("SiakWebApps")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SiakWebApps")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

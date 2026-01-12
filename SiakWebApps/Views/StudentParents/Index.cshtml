@@ -39,9 +39,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="studentParentModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="studentParentForm">
@@ -67,7 +65,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="saveBtn">Save changes</button>
             </div>
         </div>
@@ -80,6 +78,8 @@
         $(document).ready(function () {
             var table = $('#studentParentsTable').DataTable({
                 "processing": true,
+                "dom": 'Bfrtip',
+                "buttons": ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "serverSide": false, // Set to false as we load all data at once
                 "ajax": {
                     "url": "/StudentParents/GetAll",

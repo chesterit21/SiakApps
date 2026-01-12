@@ -20,7 +20,7 @@
                     @Html.DisplayNameFor(model => model.Nama)
                 </th>
                 <th>
-                    Provinsi ID
+                    Provinsi
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.CreatedAt)
@@ -36,7 +36,7 @@
                         @Html.DisplayFor(modelItem => item.Nama)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ProvinsiId)
+                        @Html.DisplayFor(modelItem => item.ProvinceName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CreatedAt)
@@ -64,9 +64,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createModalLabel">Create City</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Content will be loaded by AJAX -->
@@ -81,9 +79,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel">Edit City</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Content will be loaded by AJAX -->
@@ -98,9 +94,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="detailsModalLabel">City Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Content will be loaded by AJAX -->

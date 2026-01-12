@@ -14,7 +14,19 @@ namespace SiakWebApps.DataAccess
         {
             using var connection = CreateConnection();
             return await connection.QueryAsync<MasterSubdistrict>(
-                "SELECT id, kecamatan_id, nama, created_at, updated_at FROM master_kelurahan");
+                @"SELECT 
+                    s.id, 
+                    s.kecamatan_id as ""KecamatanId"", 
+                    s.nama, 
+                    d.nama as ""DistrictName"", 
+                    c.nama as ""CityName"",
+                    p.nama as ""ProvinceName"",
+                    s.created_at as ""CreatedAt"", 
+                    s.updated_at as ""UpdatedAt""
+                  FROM master_kelurahan s
+                  JOIN master_kecamatan d ON s.kecamatan_id = d.id
+                  JOIN master_kota c ON d.kota_id = c.id
+                  JOIN master_provinsi p ON c.provinsi_id = p.id");
         }
 
         public async Task<MasterSubdistrict?> GetByIdAsync(int id)

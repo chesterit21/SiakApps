@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
-    public class MasterProvincesController : Controller
+    [MenuAuthorize("MSTR-PROVINCE")]
+    public class MasterProvincesController : BaseController
     {
         private readonly MasterProvinceService _masterProvinceService;
 
@@ -14,6 +19,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterProvinces
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var provinces = await _masterProvinceService.GetAllAsync();
@@ -21,6 +27,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterProvinces/Details/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int id)
         {
             var province = await _masterProvinceService.GetByIdAsync(id);
@@ -32,6 +39,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterProvinces/Create
+        [MenuActionAuthorize("VIEW")]
         public IActionResult Create()
         {
             return PartialView("_CreateModal");
@@ -40,6 +48,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterProvinces/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("Nama")] MasterProvince province)
         {
             if (ModelState.IsValid)
@@ -56,6 +65,7 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: MasterProvinces/Edit/5
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Edit(int id)
         {
             var province = await _masterProvinceService.GetByIdAsync(id);
@@ -69,6 +79,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterProvinces/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nama,CreatedAt,UpdatedAt")] MasterProvince province)
         {
             if (id != province.Id)
@@ -92,6 +103,7 @@ namespace SiakWebApps.Controllers
         // POST: MasterProvinces/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _masterProvinceService.DeleteAsync(id);

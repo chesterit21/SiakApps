@@ -1,0 +1,139 @@
+@model List<SiakWebApps.ViewComponents.MenuItemViewModel>
+@using SiakWebApps.ViewComponents
+@using Microsoft.AspNetCore.Html
+
+@{
+    IHtmlContent renderMenu(List<MenuItemViewModel> menuItems)
+    {
+        var html = new HtmlContentBuilder();
+        foreach (var item in menuItems)
+        {
+            if (item.Children.Any())
+            {
+                html.AppendHtml($"<li class='nav-item'>\n                                    <a href='#submenu-{item.Id}' data-bs-toggle='collapse' class='nav-link'>\n                                        <i class='fas fa-folder'></i> <span>{item.MenuName}</span>\n                                    </a>\n                                    <ul id='submenu-{item.Id}' class='collapse list-unstyled'>");
+                html.AppendHtml(renderMenu(item.Children));
+                html.AppendHtml("</ul></li>");
+            }
+            else
+            {
+                html.AppendHtml($"<li class='nav-item'>\n                                    <a class='nav-link' href='{System.Text.Encodings.Web.HtmlEncoder.Default.Encode(item.MenuUrl ?? "#")}'>\n                                        <i class='fas fa-file'></i> <span>{System.Text.Encodings.Web.HtmlEncoder.Default.Encode(item.MenuName)}</span>\n                                    </a>\n                                   </li>");
+            }
+        }
+        return html;
+    }
+}
+
+<nav id="sidebar" class="bg-dark">
+    <div class="sidebar-header">
+        <h3>SIAK Web Apps</h3>
+        <button type="button" id="sidebarCollapseClose" class="btn btn-dark d-lg-none">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <ul class="list-unstyled components">
+        <li class="nav-item">
+             <a class="nav-link" href="/Dashboard/Index">
+                <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+            </a>
+        </li>
+
+        @renderMenu(Model)
+
+    </ul>
+
+    <ul class="list-unstyled CTAs">
+        <li><a href="/Auth/Logout" class="logout">Logout</a></li>
+    </ul>
+</nav>
+
+<style>
+    /*
+    * Sidebar
+    */
+    #sidebar {
+        min-width: 250px;
+        max-width: 250px;
+        color: #fff;
+        transition: all 0.3s;
+        height: 100vh;
+        position: fixed;
+        z-index: 1000;
+    }
+
+    #sidebar.active {
+        margin-left: -250px;
+    }
+
+    #sidebar .sidebar-header {
+        padding: 20px;
+        background: #343a40;
+        border-bottom: 1px solid #4f5b69;
+    }
+
+    #sidebar ul.components {
+        padding: 20px 0;
+        border-bottom: 1px solid #4f5b69;
+    }
+
+    #sidebar ul p {
+        color: #fff;
+        padding: 10px;
+    }
+
+    #sidebar ul li a {
+        padding: 10px 20px;
+        font-size: 1.1em;
+        display: block;
+        color: #adb5bd;
+        text-decoration: none;
+    }
+
+    #sidebar ul li a:hover {
+        color: #ffffff;
+        background: #495057;
+    }
+
+    #sidebar ul li.active>a,
+    a[aria-expanded="true"] {
+        color: #fff;
+        background: #343a40;
+    }
+
+    #sidebar ul li a i {
+        margin-right: 10px;
+    }
+
+    ul ul a {
+        font-size: 0.9em !important;
+        padding-left: 40px !important;
+        background: #495057;
+    }
+
+    ul.CTAs {
+        padding: 20px;
+    }
+
+    ul.CTAs a {
+        text-align: center;
+        font-size: 0.9em !important;
+        display: block;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+
+    a.logout {
+        background: #e74c3c;
+        color: #fff;
+    }
+     a.logout:hover {
+        background: #c0392b;
+    }
+
+    #sidebarCollapseClose {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+</style>

@@ -5,7 +5,9 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    public class StudentScholarshipsController : Controller
+    [MenuAuthorize("STU-SCHOLARSHIP")]
+
+    public class StudentScholarshipsController : BaseController
     {
         private readonly StudentScholarshipService _studentScholarshipService;
         private readonly StudentService _studentService;

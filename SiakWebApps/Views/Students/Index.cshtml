@@ -7,10 +7,10 @@
 <h1>Students</h1>
 
 <p>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createStudentModal">Create
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStudentModal">Create
         New</button>
 </p>
-<table class="table">
+<table class="table" id="studentsTable">
     <thead>
         <tr>
             <th>
@@ -69,8 +69,8 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
-                        data-target="#editStudentModal">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+                        data-bs-target="#editStudentModal">Edit</button>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Details</a>
                 </td>
             </tr>
@@ -86,11 +86,22 @@
                 <h5 class="modal-title">Create Student</h5>
             </div>
             <div class="modal-body">
-                @await Html.PartialAsync("_CreateModal")
+                @await Html.PartialAsync("_CreateModal", new SiakWebApps.Models.Student())
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#studentsTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            });
+        });
+    </script>
+}
 
 <!-- Edit Student Modal -->
 <div class="modal fade" id="editStudentModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -100,7 +111,7 @@
                 <h5 class="modal-title">Edit Student</h5>
             </div>
             <div class="modal-body">
-                @await Html.PartialAsync("_EditModal")
+                @await Html.PartialAsync("_EditModal", new SiakWebApps.Models.Student())
             </div>
         </div>
     </div>

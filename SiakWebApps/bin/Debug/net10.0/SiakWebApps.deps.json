@@ -40,8 +40,10 @@
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
           "Dapper": "2.1.35",
+          "Microsoft.AspNetCore.Html.Abstractions": "2.3.9",
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "10.0.1",
           "Npgsql": "8.0.3",
+          "Swashbuckle.AspNetCore": "6.5.0",
           "Microsoft.AspNetCore.Antiforgery": "10.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "10.0.0.0",
           "Microsoft.AspNetCore.Authentication.BearerToken": "10.0.0.0",
@@ -73,7 +75,7 @@
           "Microsoft.AspNetCore.Hosting.Abstractions": "10.0.0.0",
           "Microsoft.AspNetCore.Hosting": "10.0.0.0",
           "Microsoft.AspNetCore.Hosting.Server.Abstractions": "10.0.0.0",
-          "Microsoft.AspNetCore.Html.Abstractions": "10.0.0.0",
+          "Microsoft.AspNetCore.Html.Abstractions.Reference": "10.0.0.0",
           "Microsoft.AspNetCore.Http.Abstractions": "10.0.0.0",
           "Microsoft.AspNetCore.Http.Connections.Common": "10.0.0.0",
           "Microsoft.AspNetCore.Http.Connections": "10.0.0.0",
@@ -558,6 +560,17 @@
           "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {}
         }
       },
+      "Microsoft.OpenApi/1.2.3": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
+            "assemblyVersion": "1.2.3.0",
+            "fileVersion": "1.2.3.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {}
+        }
+      },
       "Npgsql/8.0.3": {
         "runtime": {
           "lib/net8.0/Npgsql.dll": {
@@ -567,6 +580,53 @@
         },
         "compile": {
           "lib/net8.0/Npgsql.dll": {}
+        }
+      },
+      "Swashbuckle.AspNetCore/6.5.0": {
+        "dependencies": {
+          "Microsoft.Extensions.ApiDescription.Server": "6.0.5",
+          "Swashbuckle.AspNetCore.Swagger": "6.5.0",
+          "Swashbuckle.AspNetCore.SwaggerGen": "6.5.0",
+          "Swashbuckle.AspNetCore.SwaggerUI": "6.5.0"
+        }
+      },
+      "Swashbuckle.AspNetCore.Swagger/6.5.0": {
+        "dependencies": {
+          "Microsoft.OpenApi": "1.2.3"
+        },
+        "runtime": {
+          "lib/net7.0/Swashbuckle.AspNetCore.Swagger.dll": {
+            "assemblyVersion": "6.5.0.0",
+            "fileVersion": "6.5.0.0"
+          }
+        },
+        "compile": {
+          "lib/net7.0/Swashbuckle.AspNetCore.Swagger.dll": {}
+        }
+      },
+      "Swashbuckle.AspNetCore.SwaggerGen/6.5.0": {
+        "dependencies": {
+          "Swashbuckle.AspNetCore.Swagger": "6.5.0"
+        },
+        "runtime": {
+          "lib/net7.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {
+            "assemblyVersion": "6.5.0.0",
+            "fileVersion": "6.5.0.0"
+          }
+        },
+        "compile": {
+          "lib/net7.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {}
+        }
+      },
+      "Swashbuckle.AspNetCore.SwaggerUI/6.5.0": {
+        "runtime": {
+          "lib/net7.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {
+            "assemblyVersion": "6.5.0.0",
+            "fileVersion": "6.5.0.0"
+          }
+        },
+        "compile": {
+          "lib/net7.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/10.0.0.0": {
@@ -755,7 +815,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Html.Abstractions/10.0.0.0": {
+      "Microsoft.AspNetCore.Html.Abstractions.Reference/10.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Html.Abstractions.dll": {}
         },
@@ -2411,7 +2471,13 @@
         },
         "compileOnly": true
       },
+      "Microsoft.AspNetCore.Html.Abstractions/2.3.9": {
+        "compileOnly": true
+      },
       "Microsoft.CodeAnalysis.Analyzers/3.3.2": {
+        "compileOnly": true
+      },
+      "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
         "compileOnly": true
       }
     }
@@ -2485,12 +2551,47 @@
       "path": "microsoft.extensions.dependencymodel/10.0.1",
       "hashPath": "microsoft.extensions.dependencymodel.10.0.1.nupkg.sha512"
     },
+    "Microsoft.OpenApi/1.2.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Nug3rO+7Kl5/SBAadzSMAVgqDlfGjJZ0GenQrLywJ84XGKO0uRqkunz5Wyl0SDwcR71bAATXvSdbdzPrYRYKGw==",
+      "path": "microsoft.openapi/1.2.3",
+      "hashPath": "microsoft.openapi.1.2.3.nupkg.sha512"
+    },
     "Npgsql/8.0.3": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-6WEmzsQJCZAlUG1pThKg/RmeF6V+I0DmBBBE/8YzpRtEzhyZzKcK7ulMANDm5CkxrALBEC8H+5plxHWtIL7xnA==",
       "path": "npgsql/8.0.3",
       "hashPath": "npgsql.8.0.3.nupkg.sha512"
+    },
+    "Swashbuckle.AspNetCore/6.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FK05XokgjgwlCI6wCT+D4/abtQkL1X1/B9Oas6uIwHFmYrIO9WUD5aLC9IzMs9GnHfUXOtXZ2S43gN1mhs5+aA==",
+      "path": "swashbuckle.aspnetcore/6.5.0",
+      "hashPath": "swashbuckle.aspnetcore.6.5.0.nupkg.sha512"
+    },
+    "Swashbuckle.AspNetCore.Swagger/6.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XWmCmqyFmoItXKFsQSwQbEAsjDKcxlNf1l+/Ki42hcb6LjKL8m5Db69OTvz5vLonMSRntYO1XLqz0OP+n3vKnA==",
+      "path": "swashbuckle.aspnetcore.swagger/6.5.0",
+      "hashPath": "swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512"
+    },
+    "Swashbuckle.AspNetCore.SwaggerGen/6.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Y/qW8Qdg9OEs7V013tt+94OdPxbRdbhcEbw4NiwGvf4YBcfhL/y7qp/Mjv/cENsQ2L3NqJ2AOu94weBy/h4KvA==",
+      "path": "swashbuckle.aspnetcore.swaggergen/6.5.0",
+      "hashPath": "swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512"
+    },
+    "Swashbuckle.AspNetCore.SwaggerUI/6.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OvbvxX+wL8skxTBttcBsVxdh73Fag4xwqEU2edh4JMn7Ws/xJHnY/JB1e9RoCb6XpDxUF3hD9A0Z1lEUx40Pfw==",
+      "path": "swashbuckle.aspnetcore.swaggerui/6.5.0",
+      "hashPath": "swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Antiforgery/10.0.0.0": {
       "type": "referenceassembly",
@@ -2647,7 +2748,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Html.Abstractions/10.0.0.0": {
+    "Microsoft.AspNetCore.Html.Abstractions.Reference/10.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -4027,12 +4128,26 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Microsoft.AspNetCore.Html.Abstractions/2.3.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WKispRb4jZqIRJ+30fSRJd5vpmrDEtmx22spfgESiiPDFf0US5GhjW0C8wJhCwjdu+Poq+vW+7jgmhuYFxbq6Q==",
+      "path": "microsoft.aspnetcore.html.abstractions/2.3.9",
+      "hashPath": "microsoft.aspnetcore.html.abstractions.2.3.9.nupkg.sha512"
+    },
     "Microsoft.CodeAnalysis.Analyzers/3.3.2": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-7xt6zTlIEizUgEsYAIgm37EbdkiMmr6fP6J9pDoKEpiGM4pi32BCPGr/IczmSJI9Zzp0a6HOzpr9OvpMP+2veA==",
       "path": "microsoft.codeanalysis.analyzers/3.3.2",
       "hashPath": "microsoft.codeanalysis.analyzers.3.3.2.nupkg.sha512"
+    },
+    "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ckb5EDBUNJdFWyajfXzUIMRkhf52fHZOQuuZg/oiu8y7zDCVwD0iHhew6MnThjHmevanpxL3f5ci2TtHQEN6bw==",
+      "path": "microsoft.extensions.apidescription.server/6.0.5",
+      "hashPath": "microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512"
     }
   }
 }

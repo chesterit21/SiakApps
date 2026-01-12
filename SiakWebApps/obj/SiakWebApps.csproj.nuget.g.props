@@ -12,7 +12,12 @@
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="/home/sfcore/.nuget/packages/" />
   </ItemGroup>
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props')" />
+    <Import Project="$(NuGetPackageRoot)swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props" Condition="Exists('$(NuGetPackageRoot)swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props')" />
+  </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">/home/sfcore/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
     <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">/home/sfcore/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.2</PkgMicrosoft_CodeAnalysis_Analyzers>
   </PropertyGroup>
 </Project>

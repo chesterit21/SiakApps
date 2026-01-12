@@ -1,13 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using SiakWebApps.DataAccess;
+using SiakWebApps.Filters;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MenuAppController : ControllerBase
+    [MenuAuthorize("SYS-MENU")]
+    public class MenuAppController : BaseController
     {
         private readonly MenuAppService _menuAppService;
 
@@ -17,6 +21,7 @@ namespace SiakWebApps.Controllers
         }
 
         [HttpGet]
+        [MenuActionAuthorize("VIEW")]
         public async Task<ActionResult<IEnumerable<MenuApp>>> GetAll()
         {
             var menuApps = await _menuAppService.GetAllAsync();
@@ -37,6 +42,7 @@ namespace SiakWebApps.Controllers
         }
 
         [HttpPost]
+        [MenuActionAuthorize("ADD")]
         public async Task<ActionResult<MenuApp>> Create(MenuApp menuApp)
         {
             if (!ModelState.IsValid)
@@ -51,6 +57,7 @@ namespace SiakWebApps.Controllers
         }
 
         [HttpPut("{id}")]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Update(int id, MenuApp menuApp)
         {
             if (!ModelState.IsValid || id != menuApp.Id)
@@ -68,6 +75,7 @@ namespace SiakWebApps.Controllers
         }
 
         [HttpDelete("{id}")]
+        [MenuActionAuthorize("DELETE")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _menuAppService.DeleteAsync(id);

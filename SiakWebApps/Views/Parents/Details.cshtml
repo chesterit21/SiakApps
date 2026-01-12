@@ -1,59 +1,70 @@
 @model SiakWebApps.Models.Parent
+@{
+    Layout = null;
+}
 
 <div>
     <h4>Parent Details</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.NamaLengkap)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.NamaLengkap)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Nik)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Nik)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Pekerjaan)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Pekerjaan)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.PenghasilanPerBulan)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.PenghasilanPerBulan)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.AlamatId)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.AlamatId)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.NamaLengkap)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.NamaLengkap)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Nik)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Nik)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Pekerjaan)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Pekerjaan)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.PenghasilanPerBulan)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.PenghasilanPerBulan)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.AlamatId)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.AlamatId)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CreatedAt)
+                </dd>
+            </dl>
+        </div>
+    </div>
 </div>
 <div>
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 </div>

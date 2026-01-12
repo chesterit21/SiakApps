@@ -1,8 +1,9 @@
+@model IEnumerable<SiakWebApps.Models.MenuApp>
+
 @{
     ViewData["Title"] = "Menu Apps";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -30,6 +31,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.MenuName</td>
+                                    <td>@item.UniqueCode</td>
+                                    <td>@item.MenuUrl</td>
+                                    <td>@(item.ParentMenu?.MenuName ?? "None")</td>
+                                    <td>@item.LevelParent</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm edit-btn" data-id="@item.Id"><i class="fas fa-edit"></i> Edit</button>
+                                        <button class="btn btn-danger btn-sm delete-btn" data-id="@item.Id"><i class="fas fa-trash"></i> Delete</button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -46,16 +62,31 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+            // Initialize DataTable immediately
+            var table = $('#menuTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "dom": 'Blfrtip',
+                "buttons": ['copy', 'csv', 'excel', 'pdf', 'print']
+            });
+
             // Load parent menus for dropdowns
             function loadParentMenus() {
-                return $.get('/MenuApps/GetMenuApps')
-                    .then(function(response) {
+                $.get('/MenuApps/GetMenuApps')
+                    .done(function(response) {
                         var parentMenus = response.data;
                         var options = '<option value="">None</option>';
                         
-                        parentMenus.forEach(function(menu) {
-                            options += '<option value="' + menu.id + '">' + menu.menuName + '</option>';
-                        });
+                        if (parentMenus && parentMenus.length > 0) {
+                            parentMenus.forEach(function(menu) {
+                                options += '<option value="' + menu.id + '">' + menu.menuName + '</option>';
+                            });
+                        }
                         
                         $('#parentMenuId').html(options);
                         $('#editParentMenuId').html(options);
@@ -63,47 +94,10 @@
             }
             
             // Load parent menus when page loads
-            loadParentMenus().then(function() {
-                // Initialize DataTable after parent menus are loaded
-                var table = $('#menuTable').DataTable({
-                    "paging": true,
-                    "lengthChange": true,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                    "ajax": {
-                        "url": "/MenuApps/GetMenuApps",
-                        "type": "GET",
-                        "datatype": "json"
-                    },
-                    "columns": [
-                        { "data": "id" },
-                        { "data": "menuName" },
-                        { "data": "uniqueCode" },
-                        { "data": "menuUrl" },
-                        { 
-                            "data": "parentMenu", 
-                            "render": function(data, type, row) {
-                                return data ? data.menuName : 'None';
-                            }
-                        },
-                        { "data": "levelParent" },
-                        {
-                            "data": "id",
-                            "render": function (data, type, row) {
-                                return "<button class='btn btn-primary btn-sm edit-btn' data-id='" + data + "'><i class='fas fa-edit'></i> Edit</button> " +
-                                       "<button class='btn btn-danger btn-sm delete-btn' data-id='" + data + "'><i class='fas fa-trash'></i> Delete</button>";
-                            },
-                            "orderable": false,
-                            "searchable": false
-                        }
-                    ]
-                });
+            loadParentMenus();
 
-                // Handle edit button click
-                $('#menuTable tbody').on('click', '.edit-btn', function () {
+            // Handle edit button click
+            $('#menuTable tbody').on('click', '.edit-btn', function () {
                     var id = $(this).data('id');
                     $.get('/MenuApps/GetById/' + id)
                         .done(function (data) {
@@ -131,7 +125,7 @@
                             type: 'DELETE',
                             success: function (result) {
                                 if (result.success) {
-                                    table.ajax.reload();
+                                    location.reload();
                                     alert(result.message);
                                 } else {
                                     alert(result.message);
@@ -156,7 +150,7 @@
                             if (result.success) {
                                 $('#createModal').modal('hide');
                                 $('#createForm')[0].reset();
-                                table.ajax.reload();
+                                location.reload();
                                 alert(result.message);
                             } else {
                                 alert(result.message);
@@ -182,7 +176,7 @@
                         success: function (result) {
                             if (result.success) {
                                 $('#editModal').modal('hide');
-                                table.ajax.reload();
+                                location.reload();
                                 alert(result.message);
                             } else {
                                 alert(result.message);
@@ -196,7 +190,6 @@
                         }
                     });
                 });
-            });
         });
     </script>
 }

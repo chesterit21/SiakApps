@@ -1,16 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SiakWebApps.Models;
 using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    public class TeachersController : Controller
+    [MenuAuthorize("MSTR-GURU")]
+
+    public class TeachersController : BaseController
     {
         private readonly TeacherService _teacherService;
+        private readonly UserService _userService;
 
-        public TeachersController(TeacherService teacherService)
+        public TeachersController(TeacherService teacherService, UserService userService)
         {
             _teacherService = teacherService;
+            _userService = userService;
         }
 
         // GET: Teachers
@@ -38,8 +43,10 @@ namespace SiakWebApps.Controllers
         }
 
         // GET: Teachers/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var users = await _userService.GetAllUsersAsync();
+            ViewBag.UserId = new SelectList(users, "Id", "Username");
             return PartialView("_CreateModal");
         }
 
@@ -53,6 +60,8 @@ namespace SiakWebApps.Controllers
                 await _teacherService.CreateTeacherAsync(teacher);
                 return Json(new { success = true });
             }
+            var users = await _userService.GetAllUsersAsync();
+            ViewBag.UserId = new SelectList(users, "Id", "Username", teacher.UserId);
             return PartialView("_CreateModal", teacher);
         }
 
@@ -69,6 +78,8 @@ namespace SiakWebApps.Controllers
             {
                 return NotFound();
             }
+            var users = await _userService.GetAllUsersAsync();
+            ViewBag.UserId = new SelectList(users, "Id", "Username", teacher.UserId);
             return PartialView("_EditModal", teacher);
         }
 
@@ -87,6 +98,8 @@ namespace SiakWebApps.Controllers
                 await _teacherService.UpdateTeacherAsync(teacher);
                 return Json(new { success = true });
             }
+            var users = await _userService.GetAllUsersAsync();
+            ViewBag.UserId = new SelectList(users, "Id", "Username", teacher.UserId);
             return PartialView("_EditModal", teacher);
         }
 

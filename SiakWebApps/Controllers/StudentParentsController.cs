@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SiakWebApps.Controllers
 {
-    public class StudentParentsController : Controller
+    public class StudentParentsController : BaseController
     {
         private readonly StudentParentService _studentParentService;
         private readonly StudentRepository _studentRepository;

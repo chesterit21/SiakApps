@@ -1,13 +1,66 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using SiakWebApps.DataAccess;
 using SiakWebApps.Services;
+using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models; // Diperlukan untuk OpenApiInfo
+
+// --- HASH GENERATOR ---
+// 1. Ubah "password123" di bawah ini ke kata sandi yang Anda inginkan.
+// 2. Jalankan aplikasi. Hash akan tercetak di konsol.
+// 3. Salin hash tersebut dan update database Anda.
+// 4. Hapus kode ini setelah selesai.
+// --- END OF HASH GENERATOR ---
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews()
+    .AddRazorRuntimeCompilation()
+    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-// 添加Cookie认证
+// Tambahkan Swagger Services
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "SiakApps API", 
+        Version = "v1",
+        Description = "API documentation for SiakApps education management system"
+    });
+
+    // Konfigurasi Bearer token untuk Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo("/app/data-protection-keys"));
+
+// AddingCookie authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -15,7 +68,22 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LogoutPath = "/Auth/Logout";
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.SlidingExpiration = true;
+        
+        // Allow HTTP in development environment
+        if (builder.Environment.IsDevelopment())
+        {
+            options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+        }
     });
+
+// Configure session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // Register data access and services
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -87,7 +155,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// 创建初始用户
+// Create initial user
 using (var scope = app.Services.CreateScope())
 {
     var userService = scope.ServiceProvider.GetRequiredService<UserService>();
@@ -97,10 +165,23 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+// Konfigurasi Swagger hanya di environment Development
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "SiakApps API V1");
+        c.RoutePrefix = "api-docs"; // Akses via /api-docs
+    });
+}
+
 app.UseRouting();
 
-app.UseAuthentication(); // 添加认证中间件
+app.UseAuthentication(); // Add authentication middleware
 app.UseAuthorization();
+
+app.UseSession(); // Enable session middleware
 
 // Health check endpoint for Docker
 app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow }));

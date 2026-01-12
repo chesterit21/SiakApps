@@ -5,8 +5,9 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    [Authorize]
-    public class UsersController : Controller
+    [MenuAuthorize("SYS-USER")]
+
+    public class UsersController : BaseController
     {
         private readonly UserService _userService;
 

@@ -60,5 +60,26 @@ namespace SiakWebApps.DataAccess
             var affectedRows = await connection.ExecuteAsync(sql, new { RoleId = roleId });
             return affectedRows > 0;
         }
+
+        public async Task<UserRole?> GetWithRoleByUserIdAsync(long userId)
+        {
+            using var connection = CreateConnection();
+            var sql = @"
+                SELECT ur.user_id, ur.role_id, r.id, r.name 
+                FROM user_roles ur
+                JOIN roles r ON ur.role_id = r.id
+                WHERE ur.user_id = @UserId";
+            
+            var userRole = await connection.QueryAsync<UserRole, Role, UserRole>(
+                sql, 
+                (ur, r) => {
+                    ur.Role = r;
+                    return ur;
+                },
+                new { UserId = userId },
+                splitOn: "id");
+
+            return userRole.FirstOrDefault();
+        }
     }
 }

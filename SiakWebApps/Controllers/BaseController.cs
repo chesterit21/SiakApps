@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-
 namespace SiakWebApps.Controllers
 {
+    [Authorize]
     public class BaseController : Controller
     {
         /// <summary>

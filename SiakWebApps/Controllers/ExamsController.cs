@@ -5,7 +5,8 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    public class ExamsController : Controller
+    [MenuAuthorize("ACD-EXAM")]
+    public class ExamsController : BaseController
     {
         private readonly ExamService _examService;
         private readonly SubjectService _subjectService;
@@ -30,12 +31,14 @@ namespace SiakWebApps.Controllers
             _teacherService = teacherService;
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var exams = await _examService.GetAllExamsAsync();
             return View(exams);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -67,6 +70,7 @@ namespace SiakWebApps.Controllers
             }, "Id", "Name", exam?.JenisUjianId);
         }
 
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create()
         {
             await PrepareDropdowns();
@@ -75,6 +79,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("JenisUjianId,MataPelajaranId,KelasId,SemesterId,TanggalUjian,JamMulai,JamSelesai,RuanganId,GuruId,Deskripsi")] Exam exam)
         {
             if (ModelState.IsValid)
@@ -86,6 +91,7 @@ namespace SiakWebApps.Controllers
             return PartialView("_CreateModal", exam);
         }
 
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -97,6 +103,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,JenisUjianId,MataPelajaranId,KelasId,SemesterId,TanggalUjian,JamMulai,JamSelesai,RuanganId,GuruId,Deskripsi,CreatedAt")] Exam exam)
         {
             if (id != exam.Id) return NotFound();

@@ -4,7 +4,9 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    public class SubjectsController : Controller
+    [MenuAuthorize("MSTR-SUBJECT")]
+
+    public class SubjectsController : BaseController
     {
         private readonly SubjectService _subjectService;
 

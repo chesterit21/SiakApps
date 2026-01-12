@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SiakWebApps.Controllers;
 
-[Authorize]
-public class DashboardController : Controller
+
+[MenuAuthorize("DASHBOARD")]
+
+public class DashboardController : BaseController
 {
+    [MenuActionAuthorize("VIEW")]
     public IActionResult Index()
     {
         return View();

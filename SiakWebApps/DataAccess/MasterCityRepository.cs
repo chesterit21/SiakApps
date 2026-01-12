@@ -14,7 +14,9 @@ namespace SiakWebApps.DataAccess
         {
             using var connection = CreateConnection();
             return await connection.QueryAsync<MasterCity>(
-                "SELECT id, provinsi_id, nama, created_at, updated_at FROM master_kota");
+                @"SELECT c.id, c.provinsi_id as ""ProvinsiId"", c.nama, p.nama as ""ProvinceName"", c.created_at as ""CreatedAt"", c.updated_at as ""UpdatedAt""
+                  FROM master_kota c 
+                  JOIN master_provinsi p ON c.provinsi_id = p.id");
         }
 
         public async Task<MasterCity?> GetByIdAsync(int id)
@@ -58,6 +60,14 @@ namespace SiakWebApps.DataAccess
 
             var affectedRows = await connection.ExecuteAsync(sql, new { Id = id });
             return affectedRows > 0;
+        }
+
+        public async Task<IEnumerable<MasterCity>> GetByProvinceIdAsync(int provinceId)
+        {
+            using var connection = CreateConnection();
+            return await connection.QueryAsync<MasterCity>(
+                "SELECT id, provinsi_id, nama FROM master_kota WHERE provinsi_id = @ProvinceId",
+                new { ProvinceId = provinceId });
         }
     }
 }

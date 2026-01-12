@@ -5,7 +5,9 @@ using SiakWebApps.Services;
 
 namespace SiakWebApps.Controllers
 {
-    public class ExpenseController : Controller
+    [MenuAuthorize("FIN-EXPENSE")]
+
+    public class ExpenseController : BaseController
     {
         private readonly ExpenseService _expenseService;
         private readonly AcademicYearService _academicYearService;
@@ -24,12 +26,14 @@ namespace SiakWebApps.Controllers
             _budgetCategoryService = budgetCategoryService;
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Index()
         {
             var expenses = await _expenseService.GetAllAsync();
             return View(expenses);
         }
 
+        [MenuActionAuthorize("VIEW")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -49,6 +53,7 @@ namespace SiakWebApps.Controllers
             ViewBag.AnggaranId = new SelectList(budgetCategories, "Id", "Nama", expense?.AnggaranId);
         }
 
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create()
         {
             await PrepareDropdowns();
@@ -57,6 +62,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("ADD")]
         public async Task<IActionResult> Create([Bind("AnggaranId,TahunAjaranId,SemesterId,NamaPengeluaran,Jumlah,Deskripsi,TanggalPengeluaran,BuktiPengeluaran")] Expense expense)
         {
             if (ModelState.IsValid)
@@ -70,6 +76,7 @@ namespace SiakWebApps.Controllers
             return PartialView("_CreateModal", expense);
         }
 
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -81,6 +88,7 @@ namespace SiakWebApps.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MenuActionAuthorize("EDIT")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,AnggaranId,TahunAjaranId,SemesterId,NamaPengeluaran,Jumlah,Deskripsi,TanggalPengeluaran,BuktiPengeluaran,CreatedBy,CreatedAt")] Expense expense)
         {
             if (id != expense.Id) return NotFound();
@@ -93,6 +101,7 @@ namespace SiakWebApps.Controllers
             return PartialView("_EditModal", expense);
         }
 
+        [MenuActionAuthorize("DELETE")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
